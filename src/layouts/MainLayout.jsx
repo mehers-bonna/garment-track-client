@@ -4,6 +4,7 @@ import Footer from '../components/Shared/Footer/Footer'
 import Navbar from '../components/Shared/Navbar/Navbar'
 import Banner from '../components/Banner/Banner'
 import BrandsSection from '../components/BrandSection/BrandSection'
+import TeamSection from '../components/TeamSection/TeamSection'
 const MainLayout = () => {
   return (
     <div>
@@ -16,6 +17,9 @@ const MainLayout = () => {
       </div>
       <div className='w-9/12 mx-auto'>
         <BrandsSection></BrandsSection>
+      </div>
+      <div>
+        <TeamSection></TeamSection>
       </div>
       <Footer />
     </div>
