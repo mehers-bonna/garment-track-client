@@ -4,6 +4,8 @@ import { FcGoogle } from 'react-icons/fc'
 import useAuth from '../../hooks/useAuth'
 import { toast } from 'react-hot-toast'
 import { TbFidgetSpinner } from 'react-icons/tb'
+import { useForm } from 'react-hook-form';
+import { imageUpload } from '../../utils';
 
 const Register = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth()
@@ -11,36 +13,53 @@ const Register = () => {
   const location = useLocation()
   const from = location.state || '/'
 
-  // form submit handler
-  const handleSubmit = async event => {
-    event.preventDefault()
-    const form = event.target
-    const name = form.name.value
-    const email = form.email.value
-    const password = form.password.value
-    const role = form.role.value
-    const status = form.status.value
+
+  // react hook form
+
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm()
+
+
+   const onSubmit = async data => {
+    const {name, image, email, password} = data
+
+    const imageFile = image[0]
+    // const formData = new FormData()
+    // formData.append('image', imageFile)
+    
+    
+
 
     try {
+    //   const {data} = await axios.post(
+    //   `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
+    //   formData
+    // )
+   const imageURL = await imageUpload(imageFile)
+
       //2. User Registration
       const result = await createUser(email, password)
 
       //3. Save username & profile photo
       await updateUserProfile(
         name,
-        'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c'
+        imageURL
       )
       console.log(result)
 
-      const userData = {
-        name,
-        email,
-        role,
-        status,
-        photoURL:
-          'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c',
-      }
-      console.log("Saving to DB:", userData)
+      // const userData = {
+      //   name,
+      //   email,
+      //   role,
+      //   status,
+      //   photoURL:
+      //     'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c',
+      // }
+      // console.log("Saving to DB:", userData)
 
 
       navigate(from, { replace: true })
@@ -50,6 +69,48 @@ const Register = () => {
       toast.error(err?.message)
     }
   }
+   
+
+
+  // form submit handler
+  // const handleSubmit = async event => {
+  //   event.preventDefault()
+  //   const form = event.target
+  //   const name = form.name.value
+  //   const email = form.email.value
+  //   const password = form.password.value
+  //   const role = form.role.value
+  //   const status = form.status.value
+
+  //   try {
+  //     //2. User Registration
+  //     const result = await createUser(email, password)
+
+  //     //3. Save username & profile photo
+  //     await updateUserProfile(
+  //       name,
+  //       'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c'
+  //     )
+  //     console.log(result)
+
+  //     const userData = {
+  //       name,
+  //       email,
+  //       role,
+  //       status,
+  //       photoURL:
+  //         'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c',
+  //     }
+  //     console.log("Saving to DB:", userData)
+
+
+  //     navigate(from, { replace: true })
+  //     toast.success('Registered Successful')
+  //   } catch (err) {
+  //     console.log(err)
+  //     toast.error(err?.message)
+  //   }
+  // }
 
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
@@ -72,7 +133,7 @@ const Register = () => {
           <p className='text-sm text-gray-400'>Welcome to GarmentTrack</p>
         </div>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           noValidate=''
           action=''
           className='space-y-6 ng-untouched ng-pristine ng-valid'
@@ -84,11 +145,11 @@ const Register = () => {
               </label>
               <input
                 type='text'
-                name='name'
                 id='name'
                 placeholder='Enter Your Name Here'
                 className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#442C2E] bg-gray-200 text-gray-900'
                 data-temp-mail-org='0'
+                {...register('name', {required: 'Name is required'})}
               />
             </div>
             {/* Image */}
@@ -113,6 +174,7 @@ const Register = () => {
       bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
       focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
       py-2'
+      {...register('image')}
               />
               <p className='mt-1 text-xs text-gray-400'>
                 PNG, JPG or JPEG (max 2MB)
@@ -125,10 +187,10 @@ const Register = () => {
                 Role
               </label>
               <select
-                name="role"
+                type="role"
                 id="role"
                 className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#442C2E] bg-gray-200 text-gray-900"
-                required
+                {...register('role', {required: 'Role is required'})}
               >
                 <option value="buyer">Buyer</option>
                 <option value="manager">Manager</option>
@@ -145,12 +207,11 @@ const Register = () => {
               </label>
               <input
                 type='email'
-                name='email'
                 id='email'
-                required
                 placeholder='Enter Your Email Here'
                 className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#442C2E] bg-gray-200 text-gray-900'
                 data-temp-mail-org='0'
+                {...register('email', {required: 'Email is required'})}
               />
             </div>
             <div>
@@ -161,13 +222,21 @@ const Register = () => {
               </div>
               <input
                 type='password'
-                name='password'
                 autoComplete='new-password'
                 id='password'
-                required
                 placeholder='*******'
                 className='w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-[#442C2E] bg-gray-200 text-gray-900'
+                {...register('password', {required: 'Password is required',
+                  pattern: {
+                    value: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+                    message: 'Password must contain at least one uppercase letter, one lowercase letter, and be at least 6 characters long.',
+                  },
+
+                })}
               />
+              {errors.password && (
+                  <p className='text-red-500 text-xs mt-1'>{errors.password.message}</p>
+                )}
             </div>
           </div>
 

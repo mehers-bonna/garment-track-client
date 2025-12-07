@@ -1,4 +1,4 @@
-import ProductDataRow from './../../../components/Dashboard/TableRows/ProductDataRow';
+import ProductDataRow from '../../../components/Dashboard/TableRows/ProductDataRow';
 
 const MyInventory = () => {
   return (
