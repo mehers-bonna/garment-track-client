@@ -1,9 +1,10 @@
 import { Link } from 'react-router'
 
-const Card = () => {
+const Card = ({product}) => {
+  const { _id, name, image, availableQuantity, category, price } = product || {}
   return (
     <Link
-      to={`/product/1`}
+      to={`/product/${_id}`}
       className='col-span-1 cursor-pointer group shadow-xl p-3 rounded-xl'
     >
       <div className='flex flex-col gap-2 w-full'>
@@ -24,8 +25,8 @@ const Card = () => {
                 group-hover:scale-110 
                 transition
               '
-            src='https://i.ibb.co.com/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg'
-            alt='Plant Image'
+            src={image}
+            alt='Product Image'
           />
           <div
             className='
@@ -35,11 +36,11 @@ const Card = () => {
             '
           ></div>
         </div>
-        <div className='font-semibold text-lg'>Money Plant</div>
-        <div className='font-semibold text-lg'>Category: Indoor</div>
-        <div className='font-semibold text-lg'>Quantity: 10</div>
+        <div className='font-semibold text-lg text-red-700'>{name}</div>
+        <div className='font-semibold text-lg'>Category: {category}</div>
+        <div className='font-semibold text-lg'>Available Quantity: {availableQuantity}</div>
         <div className='flex flex-row items-center gap-1'>
-          <div className='font-semibold'> Price: 15$</div>
+          <div className='font-semibold'> Price: {price}$</div>
         </div>
       </div>
     </Link>
