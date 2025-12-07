@@ -146,7 +146,7 @@ const AddProductForm = () => {
               >
                 <option value='Select Category'>Select Payment Options</option>
                 <option value='Cash on Delivery'>Cash on Delivery</option>
-                <option value='PayFast'>PayFast</option>
+                <option value='Stripe'>Stripe </option>
               </select>
               {errors.paymentOptions && (
                 <p className='text-xs text-red-500 mt-1'>
