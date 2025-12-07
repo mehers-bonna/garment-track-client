@@ -1,6 +1,6 @@
 import { Link } from 'react-router'
 
-const Card = ({product}) => {
+const Card = ({ product }) => {
   const { _id, name, image, availableQuantity, category, price } = product || {}
   return (
     <Link
@@ -42,6 +42,8 @@ const Card = ({product}) => {
         <div className='flex flex-row items-center gap-1'>
           <div className='font-semibold'> Price: {price}$</div>
         </div>
+        <button className="bg-[#442C2E] text-white px-6 py-2 rounded-md 
+        hover:bg-[#D6A99D]">View Details</button>
       </div>
     </Link>
   )
