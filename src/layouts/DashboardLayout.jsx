@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router';
 import Sidebar from '../components/Dashboard/Sidebar/Sidebar';
+import Footer from '../components/Shared/Footer/Footer';
 
 const DashboardLayout = () => {
   return (
@@ -17,9 +18,12 @@ const DashboardLayout = () => {
         </header>
 
         {/* Main Content */}
-        <main className="p-5">
+        <main className="p-5 min-h-screen">
           <Outlet />
         </main>
+        <footer>
+          <Footer></Footer>
+        </footer>
       </div>
     </div>
   );
