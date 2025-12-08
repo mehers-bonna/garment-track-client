@@ -1,6 +1,7 @@
-import SellerOrderDataRow from '../../../components/Dashboard/TableRows/SellerOrderDataRow'
+import BuyerOrderDataRow from '../../../components/Dashboard/TableRows/BuyerOrderDataRow';
+import MyOrdersDataRow from '../../../components/Dashboard/TableRows/MyOrdersDataRow';
 
-const ManageOrders = () => {
+const MyOrders = () => {
   return (
     <>
       <div className='container mx-auto px-4 sm:px-8'>
@@ -14,19 +15,13 @@ const ManageOrders = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Name
+                      Order Id
                     </th>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Customer
-                    </th>
-                    <th
-                      scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
-                    >
-                      Price
+                      Product
                     </th>
                     <th
                       scope='col'
@@ -38,13 +33,13 @@ const ManageOrders = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Address
+                      Status
                     </th>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Status
+                      Payment
                     </th>
 
                     <th
@@ -56,7 +51,7 @@ const ManageOrders = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <SellerOrderDataRow />
+                  <MyOrdersDataRow />
                 </tbody>
               </table>
             </div>
@@ -67,4 +62,4 @@ const ManageOrders = () => {
   )
 }
 
-export default ManageOrders
+export default MyOrders

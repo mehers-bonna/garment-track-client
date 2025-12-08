@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react'
 import DeleteModal from '../../Modal/DeleteModal'
 
-const BuyerOrderDataRow = () => {
+const AdminAllProductsDataRow = () => {
      let [isOpen, setIsOpen] = useState(false)
   const closeModal = () => setIsOpen(false)
 
@@ -64,4 +64,4 @@ const BuyerOrderDataRow = () => {
   )
 };
 
-export default BuyerOrderDataRow;
+export default AdminAllProductsDataRow;

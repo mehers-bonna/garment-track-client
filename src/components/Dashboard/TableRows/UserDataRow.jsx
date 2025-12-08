@@ -7,13 +7,13 @@ const UserDataRow = () => {
   return (
     <tr>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+        <p className='text-gray-900 '>abc</p>
+      </td>
+      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <p className='text-gray-900 '>abc@gmail.com</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>Customer</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className=''>Unavailable</p>
+        <p className=''>buyer</p>
       </td>
 
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>

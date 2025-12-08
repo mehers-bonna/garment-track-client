@@ -1,8 +1,10 @@
-import UserDataRow from '../../../components/Dashboard/TableRows/UserDataRow'
+import React from 'react';
+import BuyerOrderDataRow from '../../../components/Dashboard/TableRows/BuyerOrderDataRow';
+import PendingOrderDataRow from '../../../components/Dashboard/TableRows/PendingOrderDataRow';
 
-const ManageUsers = () => {
-  return (
-    <>
+const PendingOrders = () => {
+    return (
+          <>
       <div className='container mx-auto px-4 sm:px-8'>
         <div className='py-8'>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
@@ -14,19 +16,31 @@ const ManageUsers = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Name
+                      Order Id
                     </th>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Email
+                      User
                     </th>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Role
+                      Product
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                    >
+                      Quantity
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                    >
+                      Order Date
                     </th>
 
                     <th
@@ -38,7 +52,7 @@ const ManageUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <UserDataRow />
+                  <PendingOrderDataRow />
                 </tbody>
               </table>
             </div>
@@ -46,7 +60,7 @@ const ManageUsers = () => {
         </div>
       </div>
     </>
-  )
-}
+    );
+};
 
-export default ManageUsers
+export default PendingOrders;

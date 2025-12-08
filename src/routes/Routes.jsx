@@ -7,9 +7,9 @@ import ManageUsers from '../pages/Dashboard/Admin/ManageUsers'
 import Profile from '../pages/Dashboard/Common/Profile'
 import Statistics from '../pages/Dashboard/Common/Statistics'
 import MainLayout from '../layouts/MainLayout'
-import MyInventory from '../pages/Dashboard/Manager/MyInventory'
-import ManageOrders from '../pages/Dashboard/Manager/ManageOrders'
-import MyOrders from '../pages/Dashboard/Customer/MyOrders'
+import ManageProduct from '../pages/Dashboard/Manager/ManageProduct'
+import ApproveOrders from '../pages/Dashboard/Manager/ApproveOrders'
+import MyOrders from '../pages/Dashboard/Buyer/MyOrders'
 import { createBrowserRouter } from 'react-router'
 import Register from '../pages/Register/Register'
 import ProductDetails from '../pages/ProductDetails/ProductDetails'
@@ -19,6 +19,10 @@ import AboutUs from '../pages/AboutUs/AboutUs'
 import Contact from '../pages/Contact/Contact'
 import AuthLayout from '../layouts/AuthLayout'
 import PaymentSuccess from '../pages/Payment/PaymentSuccess'
+import AdminAllProducts from '../pages/Dashboard/Admin/AdminAllProducts';
+import AllOrders from '../pages/Dashboard/Admin/AllOrders'
+import PendingOrders from '../pages/Dashboard/Manager/PendingOrders'
+import TrackOrder from './../pages/Dashboard/Buyer/TrackOrder';
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +76,9 @@ export const router = createBrowserRouter([
 
   // { path: '/login', element: <Login /> },
   // { path: '/register', element: <Register /> },
+
+
+  // dashboard routes
   {
     path: '/dashboard',
     element: (
@@ -97,10 +104,10 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'my-inventory',
+        path: 'manage-product',
         element: (
           <PrivateRoute>
-            <MyInventory />
+            <ManageProduct />
           </PrivateRoute>
         ),
       },
@@ -109,6 +116,22 @@ export const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <ManageUsers />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'all-products',
+        element: (
+          <PrivateRoute>
+            <AdminAllProducts />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'all-orders',
+        element: (
+          <PrivateRoute>
+            <AllOrders />
           </PrivateRoute>
         ),
       },
@@ -129,8 +152,20 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: 'manage-orders',
-        element: <ManageOrders />,
+        path: 'track-order',
+        element: (
+          <PrivateRoute>
+            <TrackOrder />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'pending-orders',
+        element: <PendingOrders />,
+      },
+      {
+        path: 'approve-orders',
+        element: <ApproveOrders />,
       },
     ],
   },

@@ -1,6 +1,6 @@
-import UserDataRow from '../../../components/Dashboard/TableRows/UserDataRow'
+import ApproveOrderDataRow from '../../../components/Dashboard/TableRows/ApproveOrderDataRow'
 
-const ManageUsers = () => {
+const ApproveOrders = () => {
   return (
     <>
       <div className='container mx-auto px-4 sm:px-8'>
@@ -14,19 +14,31 @@ const ManageUsers = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Name
+                      Order Id
                     </th>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Email
+                      User
                     </th>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Role
+                      Product
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                    >
+                      Quantity
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                    >
+                      Approved Date
                     </th>
 
                     <th
@@ -38,7 +50,7 @@ const ManageUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <UserDataRow />
+                  <ApproveOrderDataRow />
                 </tbody>
               </table>
             </div>
@@ -49,4 +61,4 @@ const ManageUsers = () => {
   )
 }
 
-export default ManageUsers
+export default ApproveOrders

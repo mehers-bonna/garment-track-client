@@ -33,13 +33,10 @@ const ProductDataRow = () => {
         <p className='text-gray-900 '>Money Plant</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>Indoor</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <p className='text-gray-900 '>$120</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>5</p>
+        <p className='text-gray-900 '>stripe</p>
       </td>
 
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>

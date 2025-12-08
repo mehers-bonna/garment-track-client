@@ -1,8 +1,10 @@
-import UserDataRow from '../../../components/Dashboard/TableRows/UserDataRow'
+import React from 'react';
+import BuyerOrderDataRow from '../../../components/Dashboard/TableRows/BuyerOrderDataRow';
+import AdminAllProductsDataRow from '../../../components/Dashboard/TableRows/AdminAllProductsDataRow';
 
-const ManageUsers = () => {
-  return (
-    <>
+const AdminAllProducts = () => {
+    return (
+        <>
       <div className='container mx-auto px-4 sm:px-8'>
         <div className='py-8'>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
@@ -14,19 +16,37 @@ const ManageUsers = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
+                      Image
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                    >
                       Name
                     </th>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Email
+                      Price
                     </th>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Role
+                      Category
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                    >
+                      Created By
+                    </th>
+                    <th
+                      scope='col'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                    >
+                      Show on Home
                     </th>
 
                     <th
@@ -38,7 +58,7 @@ const ManageUsers = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <UserDataRow />
+                  <AdminAllProductsDataRow />
                 </tbody>
               </table>
             </div>
@@ -46,7 +66,7 @@ const ManageUsers = () => {
         </div>
       </div>
     </>
-  )
-}
+    );
+};
 
-export default ManageUsers
+export default AdminAllProducts;

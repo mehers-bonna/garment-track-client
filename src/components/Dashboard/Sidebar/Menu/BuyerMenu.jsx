@@ -1,5 +1,6 @@
 import { BsFingerprint } from 'react-icons/bs'
 import { GrUserAdmin } from 'react-icons/gr'
+import { GoIssueTrackedBy } from "react-icons/go";
 import MenuItem from './MenuItem'
 import { useState } from 'react'
 import BecomeSellerModal from '../../../Modal/BecomeSellerModal'
@@ -14,6 +15,7 @@ const BuyerMenu = () => {
   return (
     <>
       <MenuItem icon={BsFingerprint} label='My Orders' address='my-orders' />
+      <MenuItem icon={GoIssueTrackedBy} label='Track Order' address='track-order' />
 
       <div
         onClick={() => setIsOpen(true)}
