@@ -1,7 +1,7 @@
 import Container from '../../components/Shared/Container'
 import Heading from '../../components/Shared/Heading'
 import Button from '../../components/Shared/Button/Button'
-import PurchaseModal from '../../components/Modal/PurchaseModal'
+import OrderModal from '../../components/Modal/OrderModal'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
@@ -123,7 +123,7 @@ const ProductDetails = () => {
           </div>
           <hr className='my-6' />
 
-          <PurchaseModal closeModal={closeModal} isOpen={isOpen} />
+          <OrderModal product={product} closeModal={closeModal} isOpen={isOpen} />
         </div>
       </div>
     </Container>

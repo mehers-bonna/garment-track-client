@@ -18,6 +18,7 @@ import AllProducts from '../pages/AllProducts/AllProducts'
 import AboutUs from '../pages/AboutUs/AboutUs'
 import Contact from '../pages/Contact/Contact'
 import AuthLayout from '../layouts/AuthLayout'
+import PaymentSuccess from '../pages/Payment/PaymentSuccess'
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
       {
         path: '/product/:id',
         element: <ProductDetails />,
+      },
+      {
+        path: '/payment-success',
+        element: <PaymentSuccess />,
       },
     ],
   },
