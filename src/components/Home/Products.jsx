@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from './Card'
-import Container from '../Shared/Container'
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import LoadingSpinner from '../Shared/LoadingSpinner';
