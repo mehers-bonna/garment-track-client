@@ -48,7 +48,7 @@ const AddProductForm = () => {
   } = useForm()
 
   const onSubmit = async data => {
-    const { name, description, category, paymentOptions, price, availableQuantity, minimumOrderQuantity } = data
+    const { name, description, category, paymentOptions, price, availableQuantity, minimumOrderQuantity, showOnHome } = data // ✅ showOnHome এখানে যোগ করা হয়েছে
     const imageFile = data?.image[0]
 
 
@@ -63,6 +63,7 @@ const AddProductForm = () => {
         price: Number(price),
         availableQuantity: Number(availableQuantity),
         minimumOrderQuantity: Number(minimumOrderQuantity),
+        showOnHome: showOnHome, // ✅ প্রোডাক্ট ডেটা অবজেক্টে যোগ করা হয়েছে
         manager: {
           image: user?.photoURL,
           name: user?.displayName,
@@ -163,7 +164,7 @@ const AddProductForm = () => {
               <textarea
                 id='description'
                 placeholder='Write product description here...'
-                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-[#442C2E] bg-white focus:outline-[#442C2E] '
+                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-[#442C2E] bg-white focus:outline-[#442C2E] '
                 {...register('description', {
                   required: 'Description is required',
                 })}
@@ -241,6 +242,31 @@ const AddProductForm = () => {
               )}
             </div>
 
+            {/* 🔥 NEW FIELD: Show on Home Checkbox 🔥 */}
+            <div className='space-y-1 text-sm'>
+              <label className='block text-gray-600'>
+                Show on Home Page
+              </label>
+              <div className='flex items-center gap-2 px-4 py-3 border border-[#442C2E] rounded-md bg-white'>
+                <input
+                  id='showOnHome'
+                  type='checkbox'
+                  // ডিফল্টভাবে এটি unchecked (false) থাকবে।
+                  defaultChecked={false}
+                  className='checkbox checkbox-sm checkbox-secondary'
+                  {...register('showOnHome')}
+                />
+                <label htmlFor='showOnHome' className='text-gray-800 cursor-pointer'>
+                  Check to display this product on the Home Page (Featured)
+                </label>
+              </div>
+              <p className='text-xs text-gray-400 mt-1'>
+                If unchecked, the product will only be visible on the All Products page.
+              </p>
+            </div>
+            {/* 🔥 END NEW FIELD 🔥 */}
+
+
             {/* Image */}
             <div>
               <label
@@ -255,14 +281,14 @@ const AddProductForm = () => {
                 id='image'
                 accept='image/*'
                 className='block w-full text-sm text-gray-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-md file:border-0
-      file:text-sm file:font-semibold
-      file:bg-[#D6A99D] file:text-[#442C2E]
-      hover:file:bg-lime-50
-      bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
-      focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
-      py-2'
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-md file:border-0
+      file:text-sm file:font-semibold
+      file:bg-[#D6A99D] file:text-[#442C2E]
+      hover:file:bg-lime-50
+      bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
+      focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
+      py-2'
                 {...register('image', {
                   required: 'Image is required'
                 })}

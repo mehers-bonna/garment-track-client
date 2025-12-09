@@ -5,7 +5,7 @@ import useAuth from '../../hooks/useAuth'
 import { toast } from 'react-hot-toast'
 import { TbFidgetSpinner } from 'react-icons/tb'
 import { useForm } from 'react-hook-form';
-import { imageUpload } from '../../utils';
+import { imageUpload, saveOrUpdateUser } from '../../utils';
 
 const Register = () => {
   const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth()
@@ -25,20 +25,13 @@ const Register = () => {
 
 
    const onSubmit = async data => {
-    const {name, image, email, password} = data
+    const {name, image, email, password, role} = data
+    const status = 'pending';
 
-    const imageFile = image[0]
-    // const formData = new FormData()
-    // formData.append('image', imageFile)
-    
-    
+    const imageFile = image[0]    
 
 
     try {
-    //   const {data} = await axios.post(
-    //   `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
-    //   formData
-    // )
    const imageURL = await imageUpload(imageFile)
 
       //2. User Registration
@@ -49,18 +42,19 @@ const Register = () => {
         name,
         imageURL
       )
-      console.log(result)
+      
 
-      // const userData = {
-      //   name,
-      //   email,
-      //   role,
-      //   status,
-      //   photoURL:
-      //     'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c',
-      // }
-      // console.log("Saving to DB:", userData)
+      // 4. Save User Data in MongoDB (New logic with role and status)
+        const userDataToSave = {
+             name,
+             email,
+             image: imageURL,
+             role, 
+             status: status, 
+        };
 
+        await saveOrUpdateUser(userDataToSave)
+        console.log(result)
 
       navigate(from, { replace: true })
       toast.success('Registered Successful')
@@ -72,51 +66,17 @@ const Register = () => {
    
 
 
-  // form submit handler
-  // const handleSubmit = async event => {
-  //   event.preventDefault()
-  //   const form = event.target
-  //   const name = form.name.value
-  //   const email = form.email.value
-  //   const password = form.password.value
-  //   const role = form.role.value
-  //   const status = form.status.value
-
-  //   try {
-  //     //2. User Registration
-  //     const result = await createUser(email, password)
-
-  //     //3. Save username & profile photo
-  //     await updateUserProfile(
-  //       name,
-  //       'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c'
-  //     )
-  //     console.log(result)
-
-  //     const userData = {
-  //       name,
-  //       email,
-  //       role,
-  //       status,
-  //       photoURL:
-  //         'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c',
-  //     }
-  //     console.log("Saving to DB:", userData)
-
-
-  //     navigate(from, { replace: true })
-  //     toast.success('Registered Successful')
-  //   } catch (err) {
-  //     console.log(err)
-  //     toast.error(err?.message)
-  //   }
-  // }
-
   // Handle Google Signin
   const handleGoogleSignIn = async () => {
     try {
       //User Registration using google
-      await signInWithGoogle()
+      const {user} = await signInWithGoogle()
+
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      })
 
       navigate(from, { replace: true })
       toast.success('Registered Successful')
@@ -194,6 +154,7 @@ const Register = () => {
               >
                 <option value="buyer">Buyer</option>
                 <option value="manager">Manager</option>
+                <option value="admin">Admin</option>
               </select>
             </div>
 

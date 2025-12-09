@@ -1,53 +1,146 @@
-import { useState } from 'react'
-import DeleteModal from '../../Modal/DeleteModal'
-const AllOrdersDataRow = () => {
-  let [isOpen, setIsOpen] = useState(false)
-  const closeModal = () => setIsOpen(false)
+import { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import OrderDetailsModal from '../../Modal/OrderDetailsModal';
+// import OrderDetailsModal from '../../Modal/OrderDetailsModal'; // ✅ Modal Component Import Kora Holo
+// import { useNavigate } from 'react-router-dom'; 
+
+const AllOrdersDataRow = ({ order, refetch }) => {
+  // const navigate = useNavigate();
+  const {
+    _id,
+    transactionId,
+    buyer,
+    name,
+    availableQuantity,
+    status
+  } = order;
+
+  // ✅ 1. Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+
+  // State for Status management (Optimistic Update er jonno)
+  const [currentStatus, setCurrentStatus] = useState(status);
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  // Status Update Handler
+  const handleStatusChange = async (e) => {
+    const newStatus = e.target.value;
+    if (newStatus === currentStatus) return;
+
+    setIsUpdating(true);
+    const previousStatus = currentStatus;
+    setCurrentStatus(newStatus);
+
+    try {
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_API_URL}/order-status/${_id}`,
+        { status: newStatus }
+      );
+
+      if (data.modifiedCount > 0) {
+        toast.success(`Order ${transactionId?.slice(0, 8)} status updated to ${newStatus}`);
+        refetch();
+      } else {
+        setCurrentStatus(previousStatus);
+        toast.error('Failed to update order status.');
+      }
+    } catch (error) {
+      console.error('Status Update Error:', error);
+      setCurrentStatus(previousStatus);
+      toast.error('An error occurred during status update.');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  // Function to get status pill color
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Approved':
+        return 'bg-green-200 text-green-900';
+      case 'Rejected':
+        return 'bg-red-200 text-red-900';
+      case 'Pending':
+      default:
+        return 'bg-yellow-200 text-yellow-900';
+    }
+  };
+
+  // ✅ View/Details action - Modal Open Kora Holo
+  const handleViewDetails = () => {
+    openModal();
+  };
 
   return (
-    <tr>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>1</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>A User</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>shirt</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>5</p>
-      </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>Pending</p>
-      </td>
+    <>
+      {/* 2. ✅ Modal Component render kora holo */}
+      <OrderDetailsModal
+        order={order}
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+      />
 
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <div className='flex items-center gap-2'>
-          <select
-            required
-            className='p-1 border-2 border-lime-300 focus:outline-lime-500 rounded-md text-gray-900  bg-white'
-            name='category'
+      <tr>
+        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+          {/* Order ID: MongoDB _id ba transactionId er prothom 8 character */}
+          <p className='text-gray-900 '>{transactionId?.slice(0, 8)}</p>
+        </td>
+        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+          {/* User Email */}
+          <p className='text-gray-900 '>{buyer}</p>
+        </td>
+        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+          {/* Product Name */}
+          <p className='text-gray-900 '>{name}</p>
+        </td>
+        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+          {/* Quantity */}
+          <p className='text-gray-900 '>{availableQuantity}</p>
+        </td>
+        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+          {/* Status Pill */}
+          <span
+            className={`relative inline-block px-3 py-1 font-semibold leading-tight ${getStatusColor(currentStatus)} rounded-full`}
           >
-            <option value='Pending'>Pending</option>
-            <option value='In Progress'>Approved</option>
-            <option value='Delivered'>Rejected</option>
-          </select>
-          <button
-            onClick={() => setIsOpen(true)}
-            className='relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
-          >
-            <span
-              aria-hidden='true'
-              className='absolute inset-0 bg-red-200 opacity-50 rounded-full'
-            ></span>
-            <span className='relative'>View</span>
-          </button>
-        </div>
-        <DeleteModal isOpen={isOpen} closeModal={closeModal} />
-      </td>
-    </tr>
+            <span className='relative'>{currentStatus}</span>
+          </span>
+        </td>
+
+        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+          <div className='flex items-center gap-2'>
+            {/* Status Change Dropdown */}
+            <select
+              required
+              className={`p-1 border-2 border-gray-300 focus:outline-lime-500 rounded-md text-gray-900 bg-white ${isUpdating ? 'opacity-50 cursor-not-allowed' : ''}`}
+              value={currentStatus}
+              onChange={handleStatusChange}
+              disabled={isUpdating}
+            >
+              <option value='Pending'>Pending</option>
+              <option value='Approved'>Approved</option>
+              <option value='Rejected'>Rejected</option>
+            </select>
+
+            {/* View Button - Now opens Modal */}
+            <button
+              onClick={handleViewDetails}
+              className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
+            >
+              <span
+                aria-hidden='true'
+                className='absolute inset-0 bg-lime-200 opacity-50 rounded-full'
+              ></span>
+              <span className='relative'>View</span>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </>
   )
 }
 
-export default AllOrdersDataRow
+export default AllOrdersDataRow;

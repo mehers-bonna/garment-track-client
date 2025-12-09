@@ -1,8 +1,28 @@
 import useAuth from '../../../hooks/useAuth'
 import coverImg from '../../../assets/coverGt.jpg'
+import useRole from '../../../hooks/useRole'
+import { useNavigate } from 'react-router'
+import toast from 'react-hot-toast'
 
 const Profile = () => {
-  const { user } = useAuth()
+  const { user, logOut } = useAuth()
+  const [role, isRoleLoading] = useRole()
+  const navigate = useNavigate()
+
+  console.log(role, isRoleLoading)
+
+  // Logout Handlar function
+  const handleLogout = async () => {
+    try {
+      await logOut()
+      toast.success('Successfully logged out!')
+      navigate('/') // Logout successful hole user ke home page-e niye jabe
+    } catch (error) {
+      console.error("Logout Error:", error)
+      toast.error('Logout failed.')
+    }
+  }
+
 
   return (
     <div className='flex justify-center items-center h-screen'>
@@ -21,9 +41,13 @@ const Profile = () => {
             />
           </a>
 
-          <p className='p-2 px-4 text-xs text-white bg-lime-500 rounded-full'>
-            Customer
-          </p>
+          {isRoleLoading ? (
+            <p className='p-2 px-4 text-xs text-white bg-gray-500 rounded-full'>Loading...</p>
+          ) : (
+            <p className='p-2 px-4 text-xs text-white bg-[#D6A99D] rounded-full'>
+              {role}
+            </p>
+          )}
           <p className='mt-2 text-xl font-medium text-gray-800 '>
             User Id: {user?.uid}
           </p>
@@ -41,11 +65,11 @@ const Profile = () => {
               </p>
 
               <div>
-                <button className='bg-lime-500  px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-lime-800 block mb-1'>
-                  Update Profile
-                </button>
-                <button className='bg-lime-500 px-7 py-1 rounded-lg text-white cursor-pointer hover:bg-lime-800'>
-                  Change Password
+                <button
+                  onClick={handleLogout} 
+                  className='bg-[#442C2E] px-7 py-2 rounded-lg text-white cursor-pointer hover:bg-[#D6A99D] font-semibold transition duration-200'
+                >
+                  Logout
                 </button>
               </div>
             </div>
