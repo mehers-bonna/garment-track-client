@@ -1,6 +1,22 @@
+import { useQuery } from '@tanstack/react-query'
 import ApproveOrderDataRow from '../../../components/Dashboard/TableRows/ApproveOrderDataRow'
+import axios from 'axios'
+import useAuth from '../../../hooks/useAuth'
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
 
 const ApproveOrders = () => {
+  const {user} = useAuth()
+
+  const {data: orders = [], isLoading} = useQuery({
+    queryKey: ['orders', user?.email],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/approve-orders/${user?.email}`)
+      return result.data
+    },
+  })
+
+
+if (isLoading) return <LoadingSpinner></LoadingSpinner>
   return (
     <>
       <div className='container mx-auto px-4 sm:px-8'>
@@ -50,7 +66,9 @@ const ApproveOrders = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <ApproveOrderDataRow />
+                  {orders.map(order => {
+                    <ApproveOrderDataRow key={order._id} order={order} /> 
+                  })}
                 </tbody>
               </table>
             </div>

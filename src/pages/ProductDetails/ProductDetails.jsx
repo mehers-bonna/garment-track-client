@@ -12,7 +12,7 @@ const ProductDetails = () => {
   let [isOpen, setIsOpen] = useState(false)
   const {id} = useParams()
  
-  const {data: product = {}, isLoading, refetch} = useQuery({
+  const {data: product = {}, isLoading} = useQuery({
     queryKey: ['product', id],
     queryFn: async () => {
       const result = await axios(`${import.meta.env.VITE_API_URL}/products/${id}`)

@@ -1,20 +1,22 @@
 import React from 'react';
 
-const ApproveOrderDataRow = () => {
+const ApproveOrderDataRow = ({order}) => {
+
+  const { productId, name, availableQuantity, category } = order || {};
 
   return (
     <tr>
        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>1</p>
+        <p className='text-gray-900'>{productId}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>User A</p>
+        <p className='text-gray-900'>{name}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>shirt</p>
+        <p className='text-gray-900'>{category}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900'>5</p>
+        <p className='text-gray-900'>{availableQuantity}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <p className='text-gray-900'>1/2/2025</p>

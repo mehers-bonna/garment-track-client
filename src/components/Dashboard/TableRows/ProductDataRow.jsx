@@ -3,7 +3,7 @@ import { useState } from 'react'
 import DeleteModal from '../../Modal/DeleteModal'
 import UpdateProductModal from '../../Modal/UpdateProductModal';
 
-const ProductDataRow = () => {
+const ProductDataRow = ({product}) => {
     let [isOpen, setIsOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
@@ -14,6 +14,8 @@ const ProductDataRow = () => {
     setIsOpen(false)
   }
 
+  const {image, name, price, paymentOptions} = product
+
   return (
     <tr>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
@@ -22,7 +24,7 @@ const ProductDataRow = () => {
             <div className='block relative'>
               <img
                 alt='profile'
-                src='https://i.ibb.co.com/rMHmQP2/money-plant-in-feng-shui-brings-luck.jpg'
+                src={image}
                 className='mx-auto object-cover rounded h-10 w-15 '
               />
             </div>
@@ -30,13 +32,13 @@ const ProductDataRow = () => {
         </div>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>Money Plant</p>
+        <p className='text-gray-900 '>{name}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>$120</p>
+        <p className='text-gray-900 '>${price}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <p className='text-gray-900 '>stripe</p>
+        <p className='text-gray-900 '>{paymentOptions}</p>
       </td>
 
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
@@ -66,6 +68,7 @@ const ProductDataRow = () => {
         <UpdateProductModal
           isOpen={isEditModalOpen}
           setIsEditModalOpen={setIsEditModalOpen}
+          product={product}
         />
       </td>
     </tr>

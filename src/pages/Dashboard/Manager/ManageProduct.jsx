@@ -1,6 +1,28 @@
+import { useQuery } from '@tanstack/react-query';
 import ProductDataRow from '../../../components/Dashboard/TableRows/ProductDataRow';
+import useAuth from '../../../hooks/useAuth';
+import axios from 'axios';
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 
 const ManageProduct = () => {
+
+  const { user } = useAuth();
+
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ['product', user?.email],
+    queryFn: async () => {
+      const result = await axios(`${import.meta.env.VITE_API_URL}/manage-product/${user?.email}`);
+      return result.data;
+    },
+  });
+  console.log("Fetched Products:", products);
+  console.log("Logged User Email:", user?.email);
+
+
+
+  if (isLoading) return <LoadingSpinner />;
+
+
   return (
     <>
       <div className='container mx-auto px-4 sm:px-8'>
@@ -50,7 +72,11 @@ const ManageProduct = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <ProductDataRow />
+                  {
+                    products.map(product => (
+                      <ProductDataRow key={product._id} product={product} />
+                    ))
+                  }
                 </tbody>
               </table>
             </div>

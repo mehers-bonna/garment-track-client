@@ -240,26 +240,6 @@ const AddProductForm = () => {
                 </p>
               )}
             </div>
-            {/* Image */}
-            {/* <div className=' p-4  w-full  m-auto rounded-lg grow'>
-              <div className='file_upload px-5 py-3 relative border-4 border-dotted border-gray-300 rounded-lg'>
-                <div className='flex flex-col w-max mx-auto text-center'>
-                  <label>
-                    <input
-                      className='text-sm cursor-pointer w-36 hidden'
-                      type='file'
-                      name='image'
-                      id='image'
-                      accept='image/*'
-                      hidden
-                    />
-                    <div className='bg-[#442C2E] text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-[#D6A99D]'>
-                      Upload
-                    </div>
-                  </label>
-                </div>
-              </div>
-            </div> */}
 
             {/* Image */}
             <div>
@@ -279,7 +259,7 @@ const AddProductForm = () => {
       file:rounded-md file:border-0
       file:text-sm file:font-semibold
       file:bg-[#D6A99D] file:text-[#442C2E]
-      hover:file:bg-lime-100
+      hover:file:bg-lime-50
       bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
       focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
       py-2'
