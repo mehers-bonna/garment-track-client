@@ -52,7 +52,11 @@ const ProductDataRow = ({product}) => {
           ></span>
           <span className='relative'>Delete</span>
         </span>
-        <DeleteModal isOpen={isOpen} closeModal={closeModal} />
+        <DeleteModal 
+        isOpen={isOpen} 
+        closeModal={closeModal} 
+        id={product._id}
+        />
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <span
