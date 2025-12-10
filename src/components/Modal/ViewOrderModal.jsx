@@ -1,12 +1,8 @@
-// src/components/Dashboard/Modal/ViewOrderModal.jsx
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import React from 'react';
 
 const ViewOrderModal = ({ closeModal, isOpen, order }) => {
-    // Jodi order data na thake, tahole empty modal dekhanor proyojon nei
     if (!order) return null; 
-
-    // Order data destructuring
     const { 
         _id, 
         buyer, 

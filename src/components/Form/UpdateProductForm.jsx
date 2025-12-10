@@ -1,9 +1,8 @@
-// UpdateProductForm.jsx
 import React from 'react';
-import { useState } from 'react'; 
+import { useState } from 'react';
 import axios from 'axios';
-import { useMutation, useQueryClient } from '@tanstack/react-query'; 
-import toast from 'react-hot-toast'; 
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
 
 const imageUpload = async (image) => {
@@ -11,80 +10,81 @@ const imageUpload = async (image) => {
     formData.append('image', image);
 
     const { data } = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`, 
+        `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_API_KEY}`,
         formData
     );
     return data.data.display_url;
 };
 
 
-const UpdateProductForm = ({ product, setIsEditModalOpen }) => {
+const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
     const { user } = useAuth();
     const queryClient = useQueryClient();
 
-    
+
     const [imageText, setImageText] = useState('Upload Image');
-    
-    
+
+
     const [productData, setProductData] = useState({
         name: product?.name || '',
         category: product?.category || 'Select Category',
         description: product?.description || '',
         price: product?.price || 0,
         availableQuantity: product?.availableQuantity || 0,
-        image: product?.image || '', 
+        image: product?.image || '',
     });
 
-    
+
     const { mutateAsync } = useMutation({
         mutationFn: async (updatedProductData) => {
-            
+
             const { data } = await axios.put(
-                `${import.meta.env.VITE_API_URL}/product/${product._id}`, 
+                `${import.meta.env.VITE_API_URL}/product/${product._id}`,
                 updatedProductData
             );
             return data;
         },
         onSuccess: () => {
-            
+
             toast.success('Product Updated Successfully!');
+            if (refetch) {
+                refetch();
+            }
             queryClient.invalidateQueries({ queryKey: ['product', user?.email] });
-            setIsEditModalOpen(false); 
+            setIsEditModalOpen(false);
         },
         onError: (error) => {
             toast.error(`Update failed: ${error.message}`);
         }
     });
 
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
-        
+
         const name = form.name.value;
         const category = form.category.value;
         const description = form.description.value;
         const price = parseFloat(form.price.value);
         const availableQuantity = parseInt(form.quantity.value);
         const imageFile = form.image.files[0];
-        
+
         try {
-            let image_url = productData.image; 
+            let image_url = productData.image;
             if (imageFile) {
                 setImageText('Uploading...');
                 image_url = await imageUpload(imageFile);
             }
-            
-            // Updated product object
             const updatedProduct = {
                 name,
                 category,
                 description,
                 price,
                 availableQuantity,
-                image: image_url, 
+                image: image_url,
             };
-            
+
             await mutateAsync(updatedProduct);
 
         } catch (err) {
@@ -127,11 +127,11 @@ const UpdateProductForm = ({ product, setIsEditModalOpen }) => {
                                 type='text'
                                 placeholder='Product Name'
                                 required
-                                value={productData.name} 
-                                onChange={handleInputChange} 
+                                value={productData.name}
+                                onChange={handleInputChange}
                             />
                         </div>
-                        
+
                         {/* Category */}
                         <div className='space-y-1 text-sm'>
                             <label htmlFor='category' className='block text-gray-600 '>
@@ -141,8 +141,8 @@ const UpdateProductForm = ({ product, setIsEditModalOpen }) => {
                                 required
                                 className='w-full px-4 py-3 border-[#D6A99D] focus:outline-[#442C2E] rounded-md bg-white'
                                 name='category'
-                                value={productData.category} 
-                                onChange={handleInputChange} 
+                                value={productData.category}
+                                onChange={handleInputChange}
                             >
                                 <option value='Select Category'>Select Category</option>
                                 <option value='Shirt'>Shirt</option>
@@ -154,7 +154,7 @@ const UpdateProductForm = ({ product, setIsEditModalOpen }) => {
                                 <option value='Ladies Tops'>Ladies Tops</option>
                             </select>
                         </div>
-                        
+
                         {/* Description */}
                         <div className='space-y-1 text-sm'>
                             <label htmlFor='description' className='block text-gray-600'>
@@ -165,8 +165,8 @@ const UpdateProductForm = ({ product, setIsEditModalOpen }) => {
                                 placeholder='Write plant description here...'
                                 className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-[#D6A99D] bg-white focus:outline-[#442C2E] '
                                 name='description'
-                                value={productData.description} 
-                                onChange={handleInputChange} 
+                                value={productData.description}
+                                onChange={handleInputChange}
                             ></textarea>
                         </div>
                     </div>
@@ -185,8 +185,8 @@ const UpdateProductForm = ({ product, setIsEditModalOpen }) => {
                                     type='number'
                                     placeholder='Price per unit'
                                     required
-                                    value={productData.price} 
-                                    onChange={handleInputChange} 
+                                    value={productData.price}
+                                    onChange={handleInputChange}
                                 />
                             </div>
 
@@ -202,19 +202,19 @@ const UpdateProductForm = ({ product, setIsEditModalOpen }) => {
                                     type='number'
                                     placeholder='Available quantity'
                                     required
-                                    value={productData.availableQuantity} 
-                                    onChange={handleInputChange} 
+                                    value={productData.availableQuantity}
+                                    onChange={handleInputChange}
                                 />
                             </div>
                         </div>
-                        
+
                         {/* Image */}
                         <div>
                             <label
                                 htmlFor='image'
                                 className='block mb-2 text-sm font-medium text-gray-700'
                             >
-                                {imageText} 
+                                {imageText}
                             </label>
                             <input
                                 name='image'
@@ -230,9 +230,9 @@ const UpdateProductForm = ({ product, setIsEditModalOpen }) => {
                                 bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
                                 focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
                                 py-2'
-                                onChange={handleImageChange} 
+                                onChange={handleImageChange}
                             />
-                            {/* Existing Image Preview */}
+                            {/* Image Preview */}
                             {productData.image && !imageText.includes('Uploading') && (
                                 <p className='text-xs text-gray-500 mt-1'>
                                     Current Image: <a href={productData.image} target='_blank' rel='noopener noreferrer' className='text-blue-500 hover:underline'>View</a>

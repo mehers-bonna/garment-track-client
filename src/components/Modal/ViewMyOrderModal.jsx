@@ -1,45 +1,28 @@
-// File: ../../../components/Dashboard/Modal/ViewMyOrderModal.jsx
-
 import React from 'react';
 
 const ViewMyOrderModal = ({ order, isOpen, closeModal }) => {
     if (!isOpen || !order) return null;
-
-    // Tracking data, jodi order.tracking na thake tobe default status use kora holo
     const trackingHistory = order.tracking || [{
         status: order.currentTrackingStatus || order.status || 'Order Placed',
         location: 'N/A',
         timestamp: new Date(order.timestamp || Date.now()).toISOString(),
         notes: 'Initial Order Placement'
     }];
-    
-    // Tracking history descending order-এ সর্ট করা
     const sortedTracking = trackingHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     return (
-        // Outer container (Full screen background - Transparent)
         <div className="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            
-            {/* Background overlay - For outside click closing */}
             <div className="fixed inset-0" aria-hidden="true" onClick={closeModal}></div>
-
-            {/* Modal Centering Container */}
             <div className="flex justify-center items-center w-full h-full p-4">
-
-                {/* Modal Panel (Actual Content Box) */}
                 <div className="bg-white rounded-lg text-left overflow-hidden shadow-2xl transform transition-all max-w-2xl w-full mx-auto my-8 z-[101]">
-                    
-                    {/* Modal Header and Content Area */}
                     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div className="sm:flex sm:items-start">
                             <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                                 <h3 className="text-xl leading-6 font-bold text-gray-900 border-b pb-2 mb-4" id="modal-title">
                                     Order Details: {order.productId?.slice(0, 10) || order._id?.slice(0, 10)}
                                 </h3>
-                                
-                                {/* 1. Order Summary and Product Info */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                    {/* Column 1: Order Info */}
+                                    {/* Order Info */}
                                     <div>
                                         <h4 className='text-lg font-semibold mb-2 text-lime-700'>Summary</h4>
                                         <p><strong>Product Name:</strong> {order.name}</p>
@@ -50,16 +33,15 @@ const ViewMyOrderModal = ({ order, isOpen, closeModal }) => {
                                         <p><strong>Total Price:</strong> ${order.price}</p>
                                     </div>
                                     
-                                    {/* Column 2: Payment/Dates */}
+                                    {/* Payment/Dates */}
                                     <div>
                                         <h4 className='text-lg font-semibold mb-2 text-lime-700'>Payment & Dates</h4>
                                         <p><strong>Payment Method:</strong> Stripe</p>
                                         <p><strong>Order Date:</strong> {new Date(order.timestamp).toLocaleDateString()}</p>
-                                        {/* You can add more dates like approvedAt, etc. here */}
                                     </div>
                                 </div>
                                 
-                                {/* 2. Tracking History */}
+                                {/* Tracking History */}
                                 <div>
                                     <h4 className='text-lg font-semibold mb-3 border-t pt-3 text-lime-700'>Tracking History</h4>
                                     

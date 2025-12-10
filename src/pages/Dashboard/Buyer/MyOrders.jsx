@@ -1,21 +1,15 @@
-// File: MyOrders.jsx
-
 import axios from 'axios';
 import MyOrdersDataRow from '../../../components/Dashboard/TableRows/MyOrdersDataRow';
 import { useQuery } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
 import LoadingSpinner from './../../../components/Shared/LoadingSpinner';
 import { useState } from 'react';
-
-// ✅ নতুন Modal কম্পোনেন্ট ইম্পোর্ট
 import ViewMyOrderModal from './../../../components/Modal/ViewMyOrderModal';
 import CancelOrderModal from './../../../components/Modal/CancelOrderModal';
 
 
 const MyOrders = () => {
   const { user } = useAuth();
-
-  // ✅ refetch ফাংশনটি এখন useQuery থেকে নিতে হবে
   const { data: orders = [], isLoading, refetch } = useQuery({ 
     queryKey: ['orders', user?.email],
     queryFn: async () => {
@@ -34,7 +28,6 @@ const MyOrders = () => {
 
   return (
     <>
-      {/* ⚠️ Note: Orders না থাকলে No Orders Message দেখানোর লজিক যোগ করা হলো */}
       <div className='container mx-auto px-4 sm:px-8'>
         <div className='py-8'>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
@@ -42,22 +35,22 @@ const MyOrders = () => {
               <table className='min-w-full leading-normal'>
                 <thead>
                   <tr>
-                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
+                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>
                       Order Id
                     </th>
-                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
+                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>
                       Product
                     </th>
-                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
+                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>
                       Quantity
                     </th>
-                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
+                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>
                       Status
                     </th>
-                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
+                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>
                       Payment
                     </th>
-                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'>
+                    <th className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>
                       Action
                     </th>
                   </tr>
@@ -88,20 +81,16 @@ const MyOrders = () => {
           </div>
         </div>
       </div>
-
-      {/* ✅ VIEW MODAL RENDER */}
       <ViewMyOrderModal
         order={viewOrder}
         isOpen={!!viewOrder}
         closeModal={() => setViewOrder(null)}
       />
-
-      {/* ✅ CANCEL CONFIRM MODAL RENDER */}
       <CancelOrderModal
         order={cancelOrder}
         isOpen={!!cancelOrder}
         closeModal={() => setCancelOrder(null)}
-        refetchOrders={refetch} // refetch function pass kora holo cancel er por data refresh korar jonno
+        refetchOrders={refetch}
       />
 
     </>

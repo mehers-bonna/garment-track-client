@@ -10,13 +10,11 @@ const Profile = () => {
   const navigate = useNavigate()
 
   console.log(role, isRoleLoading)
-
-  // Logout Handlar function
   const handleLogout = async () => {
     try {
       await logOut()
       toast.success('Successfully logged out!')
-      navigate('/') // Logout successful hole user ke home page-e niye jabe
+      navigate('/')
     } catch (error) {
       console.error("Logout Error:", error)
       toast.error('Logout failed.')

@@ -1,5 +1,3 @@
-// ApprovedOrders.jsx (FINAL UPDATED CODE)
-
 import { useQuery } from '@tanstack/react-query'
 import ApproveOrderDataRow from '../../../components/Dashboard/TableRows/ApproveOrderDataRow'
 import axios from 'axios'
@@ -8,13 +6,9 @@ import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
 
 const ApprovedOrders = () => {
   const { user } = useAuth()
-
-  // ⭐ 1. API route change kora holo: 'approve-orders' theke 'approved-orders'
-  // ⭐ 2. refetch function add kora holo jeta tracking update er por data refresh korbe
   const { data: orders = [], isLoading, refetch } = useQuery({
     queryKey: ['orders', user?.email],
     queryFn: async () => {
-      // Ekhon shudhu Approved status orders fetch korbe
       const result = await axios(`${import.meta.env.VITE_API_URL}/approved-orders/${user?.email}`)
       return result.data
     },
@@ -23,8 +17,6 @@ const ApprovedOrders = () => {
 
 
   if (isLoading) return <LoadingSpinner />
-
-  // ⭐ 3. Empty State check add kora holo
   if (orders.length === 0) {
     return (
       <div className='text-center py-20'>
@@ -87,7 +79,7 @@ const ApprovedOrders = () => {
                     <ApproveOrderDataRow
                       key={order._id}
                       order={order}
-                      refetchOrders={refetch} // ⭐ refetch function pass kora holo
+                      refetchOrders={refetch}
                     />
                   ))}
                 </tbody>

@@ -1,32 +1,25 @@
-import React, { useState } from 'react'; // ✅ useState import kora holo
+import React, { useState } from 'react';
 import AllOrdersDataRow from '../../../components/Dashboard/TableRows/AllOrdersDataRow';
-import { useQuery } from '@tanstack/react-query'; // ✅ useQuery import kora holo
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import LoadingSpinner from '../../../components/Shared/LoadingSpinner'; // ✅ LoadingSpinner import kora holo
+import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 
 const AllOrders = () => {
-    // ✅ 1. State for Filtering
-    const [statusFilter, setStatusFilter] = useState(''); // Default: Shob order (empty string)
-
-    // ✅ 2. Data Fetching with useQuery and Dynamic Key
+    const [statusFilter, setStatusFilter] = useState('');
     const { 
         data: orders = [], 
         isLoading, 
         refetch 
     } = useQuery({
-        queryKey: ['all-orders', statusFilter], // statusFilter change holei data refetch hobe
+        queryKey: ['all-orders', statusFilter],
         queryFn: async () => {
             const result = await axios.get(
-                `${import.meta.env.VITE_API_URL}/all-orders?status=${statusFilter}` // Dynamic API call
+                `${import.meta.env.VITE_API_URL}/all-orders?status=${statusFilter}`
             );
             return result.data;
         },
     });
-
-    // 3. Loading State
     if (isLoading) return <LoadingSpinner />;
-
-    // 4. Handle Filter Change
     const handleFilterChange = (e) => {
         setStatusFilter(e.target.value);
     };
@@ -38,7 +31,7 @@ const AllOrders = () => {
                     <div className='flex justify-between items-center mb-4'>
                         <h2 className='text-2xl font-semibold leading-tight'>All Orders 🧾</h2>
 
-                        {/* ✅ Filter Dropdown UI */}
+                        {/* Filter Dropdown */}
                         <div className='relative'>
                             <select
                                 value={statusFilter}
@@ -68,7 +61,7 @@ const AllOrders = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* ✅ Map orders and pass props */}
+                                    {/* Map orders and pass props */}
                                     {orders.length === 0 ? (
                                         <tr>
                                             <td colSpan="6" className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>

@@ -1,4 +1,3 @@
-// src/components/Dashboard/Modal/AddTrackingModal.jsx
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import React from 'react';
 import toast from 'react-hot-toast';
@@ -20,13 +19,9 @@ const trackingStatuses = [
 
 
 const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
-    // React Hook Form setup
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    
-    // Mutation Hook to update tracking
     const { mutateAsync: addTracking, isPending } = useMutation({
         mutationFn: async (trackingData) => {
-            // Backend API call: /order-tracking/:id
             const { data } = await axios.put(
                 `${import.meta.env.VITE_API_URL}/order-tracking/${order._id}`,
                 trackingData
@@ -36,16 +31,14 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
         onSuccess: () => {
             toast.success('Tracking Updated Successfully!');
             closeModal();
-            reset(); // Form reset
-            refetchOrders(); // Approved Orders list refresh kora holo
+            reset(); 
+            refetchOrders(); 
         },
         onError: (error) => {
             console.error(error);
             toast.error('Failed to update tracking.');
         }
     });
-
-    // Form submission handler
     const onSubmit = async (data) => {
         try {
             await addTracking(data);
@@ -58,7 +51,6 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
     return (
         <Transition appear show={isOpen} as={React.Fragment}>
             <Dialog as='div' className='relative z-10' onClose={closeModal}>
-                {/* Backdrop Overlay (Transparent raka holo apnar demand onujayi) */}
                 <TransitionChild
                     as={React.Fragment}
                     enter='ease-out duration-300'

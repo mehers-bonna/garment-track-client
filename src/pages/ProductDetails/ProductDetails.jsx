@@ -7,12 +7,13 @@ import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import LoadingSpinner from '../../components/Shared/LoadingSpinner'
+import toast from 'react-hot-toast'
 
 const ProductDetails = () => {
   let [isOpen, setIsOpen] = useState(false)
-  const {id} = useParams()
- 
-  const {data: product = {}, isLoading} = useQuery({
+  const { id } = useParams()
+
+  const { data: product = {}, isLoading } = useQuery({
     queryKey: ['product', id],
     queryFn: async () => {
       const result = await axios(`${import.meta.env.VITE_API_URL}/products/${id}`)
@@ -26,10 +27,10 @@ const ProductDetails = () => {
 
 
   if (isLoading) return <LoadingSpinner></LoadingSpinner>
-  const {image, name, description, category, manager, availableQuantity, price, minimumOrderQuantity, paymentOptions} = product
+  const { image, name, description, category, manager, availableQuantity, price, minimumOrderQuantity, paymentOptions } = product
   return (
     <Container>
-      <div className='w-8/12 mx-auto flex flex-col lg:flex-row justify-between  gap-1 mt-30'>
+      <div className='w-8/12 mx-auto flex flex-col lg:flex-row justify-between  gap-1 mt-30'>
         {/* Header */}
         <div className='flex flex-col gap-6 flex-1'>
           <div>
@@ -51,7 +52,7 @@ const ProductDetails = () => {
           <hr className='my-6' />
           <div
             className='
-          text-lg font-light text-neutral-500'
+          text-lg font-light text-neutral-500'
           >
             {description}
           </div>
@@ -59,13 +60,12 @@ const ProductDetails = () => {
 
           <div
             className='
-                text-xl 
-                font-semibold 
-                flex 
-                flex-row 
-                items-center
-                gap-2
-              '
+            text-xl 
+            font-semibold 
+            flex 
+            flex-row 
+            items-center
+            gap-2'
           >
             <div>Manager: {manager?.name}</div>
 
@@ -82,36 +82,36 @@ const ProductDetails = () => {
           <div>
             <p
               className='
-                gap-4 
-                font-light
-                text-neutral-500
-              '
+                gap-4 
+                font-light
+                text-neutral-500
+              '
             >
-             Available Quantity: {availableQuantity} Units Left Only!
+              Available Quantity: {availableQuantity} Units Left Only!
             </p>
           </div>
           <hr className='my-6' />
           <div>
             <p
               className='
-                gap-4 
-                font-light
-                text-neutral-500
-              '
+                gap-4 
+                font-light
+                text-neutral-500
+              '
             >
-             Minimum Order Quantity: {minimumOrderQuantity} Units.
+              Minimum Order Quantity: {minimumOrderQuantity} Units.
             </p>
           </div>
           <hr className='my-6' />
           <div>
             <p
               className='
-                gap-4 
-                font-light
-                text-neutral-500
-              '
+                gap-4 
+                font-light
+                text-neutral-500
+              '
             >
-             Payment Option: {paymentOptions}
+              Payment Option: {paymentOptions}
             </p>
           </div>
           <hr className='my-6' />

@@ -1,18 +1,13 @@
-// File: MyOrdersDataRow.jsx
-
 import React from 'react';
 
 const MyOrdersDataRow = ({ order, onView, onCancel }) => {
-    // ⚠️ Note: order.productId er jaygay order._id use kora uchit jodi order ID hishebe _id use kora hoy.
-    const { _id, name, availableQuantity, status, paymentOptions } = order || {};
-
-    // PaymentOptions thakle seta use kora hobe, na thakle default 'Stripe'
+    const { _id, name, orderQuantity, status, paymentOptions } = order || {};
     const payment = paymentOptions || 'Stripe';
 
     return (
         <tr>
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-                <p className='text-gray-900'>{_id.slice(0, 10)}...</p> 
+                <p className='text-gray-900'>{_id}</p> 
             </td>
 
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
@@ -20,7 +15,7 @@ const MyOrdersDataRow = ({ order, onView, onCancel }) => {
             </td>
 
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-                <p className='text-gray-900'>{availableQuantity}</p>
+                <p className='text-gray-900'>{orderQuantity}</p>
             </td>
 
             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
@@ -34,8 +29,7 @@ const MyOrdersDataRow = ({ order, onView, onCancel }) => {
             </td>
 
             {/* Actions Column */}
-            <div className='flex items-center justify-center border-b border-gray-200'>
-              <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm flex items-center space-x-2'>
+            <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm flex justify-center items-center space-x-2'>
                 {/* View Button */}
                 <button
                     onClick={onView}
@@ -45,7 +39,7 @@ const MyOrdersDataRow = ({ order, onView, onCancel }) => {
                     <span className='relative'>View</span>
                 </button>
 
-                {/* ✅ Cancel Button - Only visible if status is "Pending" */}
+                {/* Cancel Button */}
                 {status === "Pending" && (
                     <button
                         onClick={onCancel}
@@ -56,7 +50,6 @@ const MyOrdersDataRow = ({ order, onView, onCancel }) => {
                     </button>
                 )}
             </td>
-            </div>
         </tr>
     );
 };

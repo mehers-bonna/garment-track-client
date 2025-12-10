@@ -1,5 +1,3 @@
-// File: PendingOrders.jsx
-
 import React from 'react';
 import PendingOrderDataRow from '../../../components/Dashboard/TableRows/PendingOrderDataRow';
 import useAuth from './../../../hooks/useAuth';
@@ -72,7 +70,6 @@ const PendingOrders = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* ✅ এইখানে পরিবর্তন করা হলো */}
                   {pendingOrders.length === 0 ? (
                     <tr>
                       <td colSpan="6" className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
@@ -90,7 +87,6 @@ const PendingOrders = () => {
                       />
                     ))
                   )}
-                  {/* ✅ পরিবর্তন শেষ */}
                 </tbody>
               </table>
             </div>

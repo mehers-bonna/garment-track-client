@@ -1,13 +1,9 @@
-// src/components/Dashboard/Modal/ViewTrackingModal.jsx
 import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react';
 import React from 'react';
 import { format } from 'date-fns';
 
 const ViewTrackingModal = ({ closeModal, isOpen, order }) => {
-    // Tracking updates reverse order-e dekhanor jonne (latest update shobar upore)
     const trackingHistory = order?.tracking ? [...order.tracking].reverse() : [];
-    
-    // Icon mapping (status onujayi icon change kora jabe)
     const getStatusIcon = (status) => {
         if (status.includes('Completed')) return '✅';
         if (status.includes('Started')) return '⚙️';
@@ -21,7 +17,6 @@ const ViewTrackingModal = ({ closeModal, isOpen, order }) => {
     return (
         <Transition appear show={isOpen} as={React.Fragment}>
             <Dialog as='div' className='relative z-10' onClose={closeModal}>
-                {/* Backdrop Overlay (Transparent raka holo apnar demand onujayi) */}
                 <TransitionChild
                     as={React.Fragment}
                     enter='ease-out duration-300'
@@ -63,8 +58,6 @@ const ViewTrackingModal = ({ closeModal, isOpen, order }) => {
                                         
                                         {trackingHistory.map((item, index) => (
                                             <div key={index} className="relative flex items-center justify-between md:justify-around md:even:flex-row-reverse group is-active">
-                                                
-                                                {/* Date/Time (Left for odd index, Right for even index on md screens) */}
                                                 <div className="flex items-center justify-center w-1/2 md:w-auto md:px-6">
                                                     <div className={`text-left text-sm font-medium ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'}`}>
                                                         <time className='block text-xs text-gray-500'>
@@ -76,12 +69,10 @@ const ViewTrackingModal = ({ closeModal, isOpen, order }) => {
                                                     </div>
                                                 </div>
 
-                                                {/* Icon (Center) */}
+                                                {/* Icon */}
                                                 <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-blue-500 z-10 text-xl shadow">
                                                     {getStatusIcon(item.status)}
                                                 </div>
-
-                                                {/* Status/Details (Right for odd index, Left for even index on md screens) */}
                                                 <div className="w-1/2 md:w-auto md:px-6">
                                                     <div className={`text-sm py-2 px-4 rounded-lg shadow-md bg-gray-50 border ${index % 2 === 0 ? 'md:mr-10' : 'md:ml-10'}`}>
                                                         <p className="font-bold text-gray-800">{item.status}</p>

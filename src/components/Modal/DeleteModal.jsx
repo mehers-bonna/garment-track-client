@@ -1,11 +1,10 @@
-// DeleteModal.jsx
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import axios from 'axios'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import useAuth from '../../hooks/useAuth'
 
-const DeleteModal = ({ closeModal, isOpen, id }) => {
+const DeleteModal = ({ closeModal, isOpen, id, refetch }) => {
   const { user } = useAuth()
   const queryClient = useQueryClient()
 
@@ -16,6 +15,10 @@ const DeleteModal = ({ closeModal, isOpen, id }) => {
     },
     onSuccess: () => {
       toast.success('Product Deleted Successfully!')
+
+      if (refetch) {
+          refetch(); 
+      }
       queryClient.invalidateQueries({ queryKey: ['product', user?.email] })
       closeModal()
     },
@@ -41,7 +44,6 @@ const DeleteModal = ({ closeModal, isOpen, id }) => {
       className='relative z-10 focus:outline-none'
       onClose={closeModal}
     >
-      {/* Overlay */}
       <div className='fixed inset-0 bg-black/30' aria-hidden='true' />
 
       <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>

@@ -1,12 +1,10 @@
-// ApproveOrderDataRow.jsx (FINAL UPDATED CODE)
 import React, { useState } from 'react';
 import { format } from 'date-fns';
 import AddTrackingModal from './../../Modal/AddTrackingModal';
 import ViewTrackingModal from '../../Modal/ViewTrackingModal';
 
 
-const ApproveOrderDataRow = ({ order, refetchOrders }) => { // ⭐ refetchOrders prop add kora holo
-  // Modal State Management
+const ApproveOrderDataRow = ({ order, refetchOrders }) => { 
   const [isAddTrackingOpen, setIsAddTrackingOpen] = useState(false);
   const [isViewTrackingOpen, setIsViewTrackingOpen] = useState(false);
 
@@ -21,19 +19,19 @@ const ApproveOrderDataRow = ({ order, refetchOrders }) => { // ⭐ refetchOrders
   const approvedDate = order?.approvedAt ? format(new Date(order.approvedAt), 'dd/MM/yyyy') : 'N/A';
 
   // Order data destructuring
-  const { _id, buyer, name, availableQuantity } = order || {};
+  const { _id, buyer, name, orderQuantity } = order || {};
 
   return (
     <>
-      {/* ⭐ Add Tracking Modal */}
+      {/* Add Tracking Modal */}
       <AddTrackingModal
         isOpen={isAddTrackingOpen}
         closeModal={closeAddTrackingModal}
         order={order}
-        refetchOrders={refetchOrders} // Tracking update er por order list refresh korar jonno
+        refetchOrders={refetchOrders}
       />
 
-      {/* View Tracking Modal (Not yet created) */}
+      {/* View Tracking Modal */}
       <ViewTrackingModal 
             isOpen={isViewTrackingOpen} 
             closeModal={closeViewTrackingModal} 
@@ -41,7 +39,6 @@ const ApproveOrderDataRow = ({ order, refetchOrders }) => { // ⭐ refetchOrders
         />
 
       <tr>
-        {/* ... (Table Columns code is same) ... */}
         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
           <p className='text-gray-900 '>{_id.slice(-6)}</p>
         </td>
@@ -52,7 +49,7 @@ const ApproveOrderDataRow = ({ order, refetchOrders }) => { // ⭐ refetchOrders
           <p className='text-gray-900 '>{name}</p>
         </td>
         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-          <p className='text-gray-900 '>{availableQuantity}</p>
+          <p className='text-gray-900 '>{orderQuantity}</p>
         </td>
         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
           <p className='text-gray-900 '>{approvedDate}</p>

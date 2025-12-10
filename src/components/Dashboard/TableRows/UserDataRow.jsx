@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import UpdateUserRoleModal from '../../Modal/UpdateUserRoleModal'
 
-// Props hishebe 'user' object and 'refetch' function receive korte hobe
 const UserDataRow = ({ user, refetch }) => {
   let [isOpen, setIsOpen] = useState(false)
   const closeModal = () => setIsOpen(false)
 
-  // Destructure user data
   const { name, email, role, status } = user
 
   return (
@@ -16,16 +14,14 @@ const UserDataRow = ({ user, refetch }) => {
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <p className='text-gray-900 '>{email}</p>
-        <p className='text-xs text-gray-500'>ID: {user._id}</p> {/* Debugging / ID jante */}
+        <p className='text-xs text-gray-500'>ID: {user._id}</p>
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <p className='text-gray-900 '>{role}</p>
       </td>
-
-      {/* NEW COLUMN: Status */}
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <span className={`py-1 px-3 rounded-full text-xs font-semibold ${status === 'suspended' ? 'bg-red-200 text-red-900' : 'bg-green-200 text-green-900'}`}>
-          {status.charAt(0).toUpperCase() + status.slice(1)} {/* First letter capitalize kora holo */}
+          {status.charAt(0).toUpperCase() + status.slice(1)}
         </span>
       </td>
 
@@ -38,14 +34,13 @@ const UserDataRow = ({ user, refetch }) => {
             aria-hidden='true'
             className='absolute inset-0 bg-green-200 opacity-50 rounded-full'
           ></span>
-          <span className='relative'>Update/Manage</span> {/* Button text change kora holo */}
+          <span className='relative'>Update/Manage</span>
         </span>
-        {/* Modal-e user data pass kora holo */}
         <UpdateUserRoleModal
           isOpen={isOpen}
           closeModal={closeModal}
-          user={user} // ✅ Full user object pass kora holo
-          refetch={refetch} // ✅ Refetch function pass kora holo
+          user={user} 
+          refetch={refetch}
         />
       </td>
     </tr>

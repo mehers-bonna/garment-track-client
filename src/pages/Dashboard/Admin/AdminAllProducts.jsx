@@ -2,23 +2,19 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import AdminAllProductsDataRow from '../../../components/Dashboard/TableRows/AdminAllProductsDataRow';
-import { toast } from 'react-hot-toast'; // Toast import kora holo
+import { toast } from 'react-hot-toast';
 
 const AdminAllProducts = () => {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // ✅ New function to fetch products
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      // Ekhane apnar axiosSecure use kora uchit jodi Admin Route protect kora thake
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
-      // Data fetch fail korle user ke janano
       toast.error('Failed to fetch products for Admin Table.');
     } finally {
       setLoading(false);
@@ -28,15 +24,12 @@ const AdminAllProducts = () => {
 
   useEffect(() => {
     fetchProducts();
-    // Dependency array empty thik ache, shudhu mount-er shomoy fetch hobe
   }, []);
 
 
   if (loading) {
     return <div className='text-center py-20'><LoadingSpinner /></div>;
   }
-
-  // ... (Jodi product na thake)
   if (products.length === 0) {
     return <div className='text-center py-20 text-xl text-gray-600'>No products found in the database.</div>;
   }

@@ -11,15 +11,13 @@ const ContactSection = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Placeholder for backend integration
     console.log(formData);
-    toast.success('Message sent successfully!'); // Toast notification
+    toast.success('Message sent successfully!');
     setFormData({ name: '', email: '', message: '' });
   };
 
   return (
     <section className="w-full py-20 bg-white">
-      {/* Toast container */}
       <Toaster position="top-center" reverseOrder={false} />
 
       <div className="max-w-4xl mx-auto px-6">

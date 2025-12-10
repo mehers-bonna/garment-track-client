@@ -4,10 +4,11 @@ import Footer from '../components/Shared/Footer/Footer';
 import Banner from '../components/Banner/Banner';
 import BrandsSection from '../components/BrandSection/BrandSection';
 import TeamSection from '../components/TeamSection/TeamSection';
+import FeedbackSection from '../components/FeedbackSection/FeedbackSection';
 
 const MainLayout = () => {
   const location = useLocation();
-  const isHome = location.pathname === '/'; // home path check
+  const isHome = location.pathname === '/';
 
   return (
     <div>
@@ -29,7 +30,16 @@ const MainLayout = () => {
         </div>
       )}
 
-      {isHome && <TeamSection />}
+     {isHome && (
+        <div className='w-9/12 mx-auto'>
+          <TeamSection />
+        </div>
+      )}
+      {isHome && (
+        <div className='w-9/12 mx-auto'>
+          <FeedbackSection />
+        </div>
+      )}
 
       <Footer />
     </div>

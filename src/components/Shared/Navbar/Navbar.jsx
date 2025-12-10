@@ -22,8 +22,6 @@ const Navbar = () => {
     { name: 'All-Products', path: '/all-products' },
     { name: 'Dashboard', path: '/dashboard' },
   ]
-
-  // Tailwind class for active link underline
   const activeClass = 'after:block after:h-[2px] after:bg-[#442C2E] after:rounded-full after:transition-all after:duration-300'
 
   return (

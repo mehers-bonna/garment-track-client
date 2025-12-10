@@ -36,18 +36,12 @@ const PaymentSuccess = () => {
             </svg>
           </div>
         </div>
-
-        {/* Heading */}
         <h1 className="text-2xl font-semibold text-gray-800 mb-2">
           Payment Successful!
         </h1>
-
-        {/* Subheading */}
         <p className="text-gray-500 mb-6">
           Thank you for your order. Your order is being processed.
         </p>
-
-        {/* Button using your project green color */}
         <Link
           to="/dashboard/my-orders"
           className="px-6 py-3 bg-[#442C2E] hover:bg-[#D6A99D] transition text-white font-medium rounded-lg shadow"

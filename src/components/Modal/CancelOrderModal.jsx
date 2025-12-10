@@ -1,5 +1,3 @@
-// File: ../../../components/Dashboard/Modal/CancelOrderModal.jsx
-
 import React from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -9,7 +7,6 @@ const CancelOrderModal = ({ order, isOpen, closeModal, refetchOrders }) => {
 
     const handleCancel = async () => {
         try {
-            // Backend call to update order status to 'Canceled'
             const { data } = await axios.put(
                 `${import.meta.env.VITE_API_URL}/order-status/${order._id}`,
                 { status: 'Canceled' }
@@ -17,7 +14,7 @@ const CancelOrderModal = ({ order, isOpen, closeModal, refetchOrders }) => {
 
             if (data.modifiedCount > 0) {
                 toast.success(`Order ${order.name} canceled successfully!`);
-                refetchOrders(); // Table data refresh
+                refetchOrders();
                 closeModal();
             } else {
                 toast.error('Failed to cancel order.');
@@ -29,11 +26,7 @@ const CancelOrderModal = ({ order, isOpen, closeModal, refetchOrders }) => {
     };
 
     return (
-        // 1. Outer container (Full screen background - Transparent)
         <div className="fixed inset-0 z-[110] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            
-            {/* ✅ Overlay - Removed bg-gray-900 bg-opacity-75 
-                 Fixed inset-0 রাখা হলো যাতে Modal-এর বাইরে ক্লিক করলে closeModal() কাজ করে। */}
             <div className="fixed inset-0 transition-opacity" aria-hidden="true" onClick={closeModal}></div>
 
             <div className="flex justify-center items-center w-full h-full p-4">
@@ -47,7 +40,7 @@ const CancelOrderModal = ({ order, isOpen, closeModal, refetchOrders }) => {
                         <p className="text-sm text-red-500 mt-2">This action cannot be undone.</p>
                     </div>
                     
-                    {/* Footer - Actions */}
+                    {/* Footer */}
                     <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                         <button
                             type="button"

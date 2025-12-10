@@ -1,49 +1,29 @@
-// File: ../../../components/Dashboard/Modal/OrderDetailsModal.jsx
-
 import React from 'react';
 
 const OrderDetailsModal = ({ order, isOpen, closeModal }) => {
     if (!isOpen) return null;
-
-    // Default tracking array jodi kono tracking data na thake
     const trackingHistory = order.tracking || [{
         status: 'Order Placed',
         location: 'N/A',
         timestamp: new Date(order.timestamp || Date.now()).toISOString(),
         notes: 'Initial Order Placement'
     }];
-    
-    // Sort tracking history by timestamp descending (latest first)
     const sortedTracking = trackingHistory.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
 
     return (
-        // ✅ 1. Outer container: bg-gray-900 bg-opacity-50 রিমুভ করে দেওয়া হলো।
-        // ব্যাকগ্রাউন্ড ট্র্যান্সপারেন্ট হবে, কিন্তু Modal টি সবার উপরে z-[100] এ থাকবে।
         <div className="fixed inset-0 z-[100] overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-            
-            {/* ✅ Background overlay - Simple Click Handler: 
-               fixed inset-0 ক্লাসটি রাখা হলো যাতে Modal-এর বাইরে ক্লিক করলে closeModal() কাজ করে, 
-               কিন্তু কোনো ব্যাকগ্রাউন্ড কালার/অপাসিটি নেই, ফলে পিছনের কন্টেন্ট দেখা যাবে। */}
             <div className="fixed inset-0" aria-hidden="true" onClick={closeModal}></div>
-
-            {/* 2. Modal Centering Container (This holds the actual modal content) */}
             <div className="flex justify-center items-center w-full h-full p-4">
-
-                {/* 3. Modal Panel (Actual Content Box) */}
                 <div className="bg-white rounded-lg text-left overflow-hidden shadow-2xl transform transition-all max-w-4xl w-full mx-auto my-8 z-[101]">
-                    
-                    {/* Modal Header and Content Area */}
                     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                         <div className="sm:flex sm:items-start">
                             <div className="mt-3 text-center sm:mt-0 sm:text-left w-full">
                                 <h3 className="text-xl leading-6 font-bold text-gray-900 border-b pb-2 mb-4" id="modal-title">
                                     Order Details: {order.transactionId?.slice(0, 10) || order._id}
                                 </h3>
-                                
-                                {/* 1. Order Summary and Buyer Info */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                    {/* Column 1: Order Info */}
+                                    {/* Order Info */}
                                     <div>
                                         <h4 className='text-lg font-semibold mb-2 text-lime-700'>Summary</h4>
                                         <p><strong>Order ID:</strong> {order._id}</p>
@@ -53,7 +33,7 @@ const OrderDetailsModal = ({ order, isOpen, closeModal }) => {
                                         <p><strong>Total Price:</strong> ${order.price}</p>
                                     </div>
                                     
-                                    {/* Column 2: Product & User Info */}
+                                    {/* Product & User Info */}
                                     <div>
                                         <h4 className='text-lg font-semibold mb-2 text-lime-700'>Product & Buyer</h4>
                                         <p><strong>Product Name:</strong> {order.name}</p>
@@ -63,7 +43,7 @@ const OrderDetailsModal = ({ order, isOpen, closeModal }) => {
                                     </div>
                                 </div>
                                 
-                                {/* 2. Tracking History */}
+                                {/* Tracking History */}
                                 <div>
                                     <h4 className='text-lg font-semibold mb-3 border-t pt-3 text-lime-700'>Tracking History</h4>
                                     

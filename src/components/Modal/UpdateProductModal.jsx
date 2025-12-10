@@ -1,7 +1,7 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import UpdateProductForm from './../Form/UpdateProductForm';
 
-const UpdateProductModal = ({ setIsEditModalOpen, isOpen, product }) => {
+const UpdateProductModal = ({ setIsEditModalOpen, isOpen, product, refetch }) => {
   return (
     <Dialog
       open={isOpen}
@@ -33,6 +33,7 @@ const UpdateProductModal = ({ setIsEditModalOpen, isOpen, product }) => {
               <UpdateProductForm
               product={product} 
             setIsEditModalOpen={setIsEditModalOpen}
+            refetch={refetch}
                />
             </div>
           </DialogPanel>

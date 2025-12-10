@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { imageUpload } from '../../utils';
 import useAuth from '../../hooks/useAuth';
@@ -11,9 +11,10 @@ import { TbFidgetSpinner } from 'react-icons/tb';
 
 const AddProductForm = () => {
   const { user } = useAuth()
+  
+  const [imagePreview, setImagePreview] = useState('')
 
 
-  // useMutation hook useCase
   const { isPending, isError, mutateAsync, reset: mutationReset } = useMutation({
     mutationFn: async (payload) => await axios.post(
       `${import.meta.env.VITE_API_URL}/products`,
@@ -22,10 +23,11 @@ const AddProductForm = () => {
       console.log(data)
       toast.success('Product Added Successfully.')
       mutationReset()
-
+      setImagePreview('') 
     },
     onError: error => {
       console.log(error)
+      toast.error('Product submission failed.')
     },
     onMutate: payload => {
       console.log('I will post this data--->', payload)
@@ -37,22 +39,36 @@ const AddProductForm = () => {
     retry: 3,
   })
 
-  // react hook form
-
   const {
     register,
     handleSubmit,
     reset,
-
     formState: { errors },
   } = useForm()
 
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+    } else {
+      setImagePreview('');
+    }
+  }
+
+
   const onSubmit = async data => {
-    const { name, description, category, paymentOptions, price, availableQuantity, minimumOrderQuantity, showOnHome } = data // ✅ showOnHome এখানে যোগ করা হয়েছে
+    const { name, description, category, paymentOptions, price, availableQuantity, minimumOrderQuantity, showOnHome } = data 
     const imageFile = data?.image[0]
 
-
     try {
+      if (!imageFile) {
+        toast.error('Please select an image to upload.');
+        return;
+      }
+
       const imageUrl = await imageUpload(imageFile)
       const productData = {
         image: imageUrl,
@@ -63,7 +79,7 @@ const AddProductForm = () => {
         price: Number(price),
         availableQuantity: Number(availableQuantity),
         minimumOrderQuantity: Number(minimumOrderQuantity),
-        showOnHome: showOnHome, // ✅ প্রোডাক্ট ডেটা অবজেক্টে যোগ করা হয়েছে
+        showOnHome: showOnHome, 
         manager: {
           image: user?.photoURL,
           name: user?.displayName,
@@ -71,14 +87,13 @@ const AddProductForm = () => {
         },
       }
 
-
       await mutateAsync(productData)
       reset()
     } catch (err) {
       console.log(err)
+      toast.error('Image upload or product submission failed.')
     }
   }
-
 
 
   if (isPending) return <LoadingSpinner></LoadingSpinner>
@@ -160,11 +175,10 @@ const AddProductForm = () => {
               <label htmlFor='description' className='block text-gray-600'>
                 Description
               </label>
-
               <textarea
                 id='description'
                 placeholder='Write product description here...'
-                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-[#442C2E] bg-white focus:outline-[#442C2E] '
+                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800 border border-[#442C2E] bg-white focus:outline-[#442C2E] '
                 {...register('description', {
                   required: 'Description is required',
                 })}
@@ -199,7 +213,6 @@ const AddProductForm = () => {
                   </p>
                 )}
               </div>
-
               {/* Quantity */}
               <div className='space-y-1 text-sm'>
                 <label htmlFor='quantity' className='block text-gray-600'>
@@ -241,8 +254,7 @@ const AddProductForm = () => {
                 </p>
               )}
             </div>
-
-            {/* 🔥 NEW FIELD: Show on Home Checkbox 🔥 */}
+            {/* Show on Home Checkbox */}
             <div className='space-y-1 text-sm'>
               <label className='block text-gray-600'>
                 Show on Home Page
@@ -251,7 +263,6 @@ const AddProductForm = () => {
                 <input
                   id='showOnHome'
                   type='checkbox'
-                  // ডিফল্টভাবে এটি unchecked (false) থাকবে।
                   defaultChecked={false}
                   className='checkbox checkbox-sm checkbox-secondary'
                   {...register('showOnHome')}
@@ -264,10 +275,8 @@ const AddProductForm = () => {
                 If unchecked, the product will only be visible on the All Products page.
               </p>
             </div>
-            {/* 🔥 END NEW FIELD 🔥 */}
-
-
-            {/* Image */}
+            
+            {/* Image Input & Preview Link */}
             <div>
               <label
                 htmlFor='image'
@@ -275,29 +284,58 @@ const AddProductForm = () => {
               >
                 Product Image
               </label>
-              <input
-                name='image'
-                type='file'
-                id='image'
-                accept='image/*'
-                className='block w-full text-sm text-gray-500
-      file:mr-4 file:py-2 file:px-4
-      file:rounded-md file:border-0
-      file:text-sm file:font-semibold
-      file:bg-[#D6A99D] file:text-[#442C2E]
-      hover:file:bg-lime-50
-      bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
-      focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
-      py-2'
-                {...register('image', {
-                  required: 'Image is required'
-                })}
-              />
+              {(() => {
+                  const { onChange, ...rest } = register('image', {
+                      required: 'Image is required'
+                  });
+
+                  return (
+                      <input
+                          name='image'
+                          type='file'
+                          id='image'
+                          accept='image/*'
+                          
+                          {...rest}
+                          
+                          onChange={(e) => {
+                              handleFileChange(e);
+                              onChange(e);
+                          }}
+
+                          className='block w-full text-sm text-gray-500
+                              file:mr-4 file:py-2 file:px-4
+                              file:rounded-md file:border-0
+                              file:text-sm file:font-semibold
+                              file:file:bg-[#D6A99D] file:text-[#442C2E]
+                              hover:file:bg-lime-50
+                              bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
+                              focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
+                              py-2'
+                      />
+                  );
+              })()}
+              
+
               <p className='mt-1 text-xs text-gray-400'>
                 PNG, JPG or JPEG (max 2MB)
               </p>
               {errors.image && (
                 <p className='text-xs text-red-500 mt-1'>{errors.image.message}</p>
+              )}
+              
+              {/* Image Preview Link */}
+              {imagePreview && (
+                  <div className='mt-2'>
+                    <a
+                        href={imagePreview}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='text-sm text-blue-500 hover:underline font-medium'
+                    >
+                      Preview Image
+                    </a>
+                  </div>
               )}
             </div>
 
@@ -318,5 +356,4 @@ const AddProductForm = () => {
     </div>
   )
 };
-
 export default AddProductForm;

@@ -1,35 +1,28 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
-import axios from 'axios' // axios import kora holo
-
-// Props hishebe 'user' object and 'refetch' function receive korte hobe
+import axios from 'axios'
 const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
-  // user.role and user.status diye state set kora holo
   const [updatedRole, setUpdatedRole] = useState(user.role)
   const [updatedStatus, setUpdatedStatus] = useState(user.status)
-  const [suspendReason, setSuspendReason] = useState(user.suspendReason || '') // New state for suspend reason
-
-  // User ke update korar function
+  const [suspendReason, setSuspendReason] = useState(user.suspendReason || '')
   const handleUpdateUser = async (e) => {
     e.preventDefault()
-    closeModal() // Modal bondho kora holo
+    closeModal()
 
     const userDataToUpdate = {
       role: updatedRole,
       status: updatedStatus,
-      // Jodi suspend kora hoy, reason and feedback add kora hobe
       suspendReason: updatedStatus === 'suspended' ? suspendReason : null,
       suspendFeedback: updatedStatus === 'suspended' ? `User suspended by Admin. Reason: ${suspendReason}` : null,
     }
 
     try {
-      // ✅ NEW API: Backend-e user role/status update korar jonno API call
       const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/user/${user._id}`, userDataToUpdate)
 
       if (data.modifiedCount > 0) {
         toast.success('User updated successfully!')
-        refetch() // ManageUsers page-er data reload kora holo
+        refetch()
       } else {
         toast('No changes made.')
       }
@@ -60,7 +53,7 @@ const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
               >
                 Update Role & Status for: {user.name} ({user.email})
               </DialogTitle>
-              <form onSubmit={handleUpdateUser}> {/* onSubmit handler add kora holo */}
+              <form onSubmit={handleUpdateUser}>
                 <div className='mt-4'>
                   <label className='block text-sm font-medium text-gray-700'>Update Role</label>
                   <select
@@ -87,8 +80,6 @@ const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
                     <option value='suspended'>Suspended</option>
                   </select>
                 </div>
-
-                {/* Suspended Hole Reason Input Field Dorkar */}
                 {updatedStatus === 'suspended' && (
                   <div className='mt-4'>
                     <label className='block text-sm font-medium text-red-700'>Suspension Reason</label>

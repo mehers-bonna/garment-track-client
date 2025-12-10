@@ -23,6 +23,7 @@ import AdminAllProducts from '../pages/Dashboard/Admin/AdminAllProducts';
 import AllOrders from '../pages/Dashboard/Admin/AllOrders'
 import PendingOrders from '../pages/Dashboard/Manager/PendingOrders'
 import TrackOrder from './../pages/Dashboard/Buyer/TrackOrder';
+import MyOrdersDataRow from './../components/Dashboard/TableRows/MyOrdersDataRow';
 
 export const router = createBrowserRouter([
   {
@@ -71,12 +72,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-
-
-
-  // { path: '/login', element: <Login /> },
-  // { path: '/register', element: <Register /> },
-
 
   // dashboard routes
   {
@@ -153,6 +148,14 @@ export const router = createBrowserRouter([
       },
       {
         path: 'track-order',
+        element: (
+          <PrivateRoute>
+            <TrackOrder />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'track-order/:orderId',
         element: (
           <PrivateRoute>
             <TrackOrder />

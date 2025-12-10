@@ -2,27 +2,24 @@ import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import OrderDetailsModal from '../../Modal/OrderDetailsModal';
-// import OrderDetailsModal from '../../Modal/OrderDetailsModal'; // ✅ Modal Component Import Kora Holo
-// import { useNavigate } from 'react-router-dom'; 
 
 const AllOrdersDataRow = ({ order, refetch }) => {
-  // const navigate = useNavigate();
   const {
     _id,
     transactionId,
     buyer,
     name,
-    availableQuantity,
+    orderQuantity,
     status
   } = order;
 
-  // ✅ 1. Modal State
+  // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
 
-  // State for Status management (Optimistic Update er jonno)
+  // State for Status management
   const [currentStatus, setCurrentStatus] = useState(status);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -70,14 +67,12 @@ const AllOrdersDataRow = ({ order, refetch }) => {
     }
   };
 
-  // ✅ View/Details action - Modal Open Kora Holo
   const handleViewDetails = () => {
     openModal();
   };
 
   return (
     <>
-      {/* 2. ✅ Modal Component render kora holo */}
       <OrderDetailsModal
         order={order}
         isOpen={isModalOpen}
@@ -86,8 +81,8 @@ const AllOrdersDataRow = ({ order, refetch }) => {
 
       <tr>
         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-          {/* Order ID: MongoDB _id ba transactionId er prothom 8 character */}
-          <p className='text-gray-900 '>{transactionId?.slice(0, 8)}</p>
+          {/* Order ID*/}
+          <p className='text-gray-900 '>{_id}</p>
         </td>
         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
           {/* User Email */}
@@ -99,7 +94,7 @@ const AllOrdersDataRow = ({ order, refetch }) => {
         </td>
         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
           {/* Quantity */}
-          <p className='text-gray-900 '>{availableQuantity}</p>
+          <p className='text-gray-900 '>{orderQuantity}</p>
         </td>
         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
           {/* Status Pill */}
@@ -125,7 +120,7 @@ const AllOrdersDataRow = ({ order, refetch }) => {
               <option value='Rejected'>Rejected</option>
             </select>
 
-            {/* View Button - Now opens Modal */}
+            {/* View Button */}
             <button
               onClick={handleViewDetails}
               className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'

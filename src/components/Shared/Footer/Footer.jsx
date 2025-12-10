@@ -5,8 +5,6 @@ const Footer = () => {
   return (
     <footer className="bg-[#FEEAE6] text-[#442C2E] py-10 mt-10 border-t">
       <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-8">
-
-        {/* Logo + Description */}
         <div>
           <div className="flex items-center gap-3">
             <img src={logo} alt="GarmentTrack Logo" className="w-12 h-12 rounded-full" />
@@ -17,8 +15,6 @@ const Footer = () => {
             and improve workflow efficiently.
           </p>
         </div>
-
-        {/* Useful Links */}
         <div>
           <h3 className="text-xl font-semibold mb-3">Useful Links</h3>
           <ul className="space-y-2 text-sm">
@@ -28,8 +24,6 @@ const Footer = () => {
             <li><NavLink to="/contact" className="hover:underline">Contact</NavLink></li>
           </ul>
         </div>
-
-        {/* Contact Info */}
         <div>
           <h3 className="text-xl font-semibold mb-3">Contact</h3>
           <p className="text-sm">Email: support@garmenttrack.com</p>
@@ -38,8 +32,6 @@ const Footer = () => {
         </div>
 
       </div>
-
-      {/* Bottom Section */}
       <div className="mt-8 pt-5 border-t text-center text-sm text-gray-600">
         © 2025-2026 GarmentTrack Inc. All rights reserved.
       </div>

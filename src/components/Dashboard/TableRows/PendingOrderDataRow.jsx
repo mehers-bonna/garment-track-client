@@ -1,22 +1,19 @@
-// PendingOrderDataRow.jsx (UPDATED CODE)
-import React, { useState } from 'react'; // 🌟 useState import kora holo
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import ViewOrderModal from './../../Modal/ViewOrderModal';
 
 const PendingOrderDataRow = ({ order, refetch }) => {
-    // 🌟 Modal State
+    // Modal State
     let [isOpen, setIsOpen] = useState(false);
     const closeModal = () => setIsOpen(false);
     const openModal = () => setIsOpen(true);
 
     const queryClient = useQueryClient();
     
-    // Status update mutation hook... (no change here)
     const { mutateAsync } = useMutation({
         mutationFn: async ({ id, status }) => {
-            // Update API call
             const { data } = await axios.put(
                 `${import.meta.env.VITE_API_URL}/order-status/${id}`,
                 { status }
@@ -31,8 +28,6 @@ const PendingOrderDataRow = ({ order, refetch }) => {
             toast.error(`Operation failed: ${error.message}`);
         }
     });
-
-    // Handle Approve/Reject click... (no change here)
     const handleStatusUpdate = async (status) => {
         try {
             await mutateAsync({ id: order._id, status });
@@ -41,46 +36,42 @@ const PendingOrderDataRow = ({ order, refetch }) => {
         }
     };
     
-    // Order data destructuring... (no change here)
-    const { _id, buyer, name, availableQuantity, status } = order;
+    const { _id, buyer, name, orderQuantity, status } = order;
 
-    // 🌟 View button functionality (Ekhon Modal open korbe)
     const handleViewDetails = () => {
-        openModal(); // Modal open kora holo
+        openModal(); 
     };
     
-    // Date formatting... (no change here)
-    const orderDate = new Date().toLocaleDateString('en-US'); // Placeholder
+    const orderDate = new Date().toLocaleDateString('en-US'); 
 
     return (
         <>
-            {/* 🌟 View Order Modal component */}
             <ViewOrderModal
                 isOpen={isOpen}
                 closeModal={closeModal}
-                order={order} // Full order object pass kora holo
+                order={order} 
             />
 
             <tr>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                    <p className='text-gray-900'>{_id.slice(-6)}</p> {/* Last 6 digits of ID as Order ID */}
+                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
+                    <p className='text-gray-900'>{_id}</p> 
                 </td>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                    <p className='text-gray-900'>{buyer}</p> {/* Buyer Email as User */}
+                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
+                    <p className='text-gray-900'>{buyer}</p> 
                 </td>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                    <p className='text-gray-900'>{name}</p> {/* Product Name */}
+                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
+                    <p className='text-gray-900'>{name}</p> 
                 </td>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                    <p className='text-gray-900'>{availableQuantity}</p> {/* Quantity */}
+                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
+                    <p className='text-gray-900'>{orderQuantity}</p> 
                 </td>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                    <p className='text-gray-900'>{orderDate}</p> {/* Order Date */}
+                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
+                    <p className='text-gray-900'>{orderDate}</p> 
                 </td>
 
                 {/* Action Buttons */}
                 <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                    <div className='flex gap-2 items-center'>
+                    <div className='flex gap-2 items-center justify-center'>
                         {/* Approve Button */}
                         <button
                             onClick={() => handleStatusUpdate('Approved')}

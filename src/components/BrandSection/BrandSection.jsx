@@ -19,7 +19,7 @@ const BrandsSection = () => {
         Our Trusted Brands
       </h2>
 
-      {/* Auto Scrolling Marquee */}
+      {/* auto scrolling marquee */}
       <div className="relative w-full">
         <motion.div
           className="flex gap-16 items-center"

@@ -1,5 +1,117 @@
+import React from 'react'
+import { FaDollarSign, FaCheckCircle } from 'react-icons/fa'
+import { BsFillCartPlusFill, BsFillHouseDoorFill } from 'react-icons/bs'
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import LoadingSpinner from './../../Shared/LoadingSpinner';
+import useAuth from '../../../hooks/useAuth';
+
+const StatCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
+  <div className={`relative flex flex-col bg-clip-border rounded-xl bg-white shadow-xl overflow-hidden transform transition duration-300 hover:scale-[1.02] border-t-4 ${colorClass}`}>
+    <div className='flex justify-between items-center p-6'>
+      <div className='flex items-center space-x-3'>
+        <div className='text-xl text-gray-500'>
+          <Icon className='w-6 h-6' />
+        </div>
+        <p className='block antialiased font-sans text-lg font-medium text-gray-600'>
+          {title}
+        </p>
+      </div>
+      <h4 className='block antialiased tracking-normal font-sans text-4xl font-extrabold text-gray-900'>
+        {value}
+      </h4>
+    </div>
+    <div className={`h-2 ${gradientClass}`}></div>
+  </div>
+);
+
+const fetchManagerStats = async (email) => {
+  if (!email) return {};
+  const response = await axios.get(`${import.meta.env.VITE_API_URL}/stats/manager/${email}`);
+  return response.data;
+};
+
+
 const ManagerStatistics = () => {
-  return <div>Seller Statistics Page</div>
+  const { user } = useAuth();
+  const managerEmail = user?.email; 
+  const {
+    data: stats = {},
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['manager-stats', managerEmail],
+    queryFn: () => fetchManagerStats(managerEmail),
+    enabled: !!managerEmail,
+  });
+
+  if (isLoading || !managerEmail) {
+    return <div className='text-center py-8 text-xl'><LoadingSpinner /></div>;
+  }
+
+  if (isError) {
+    return <div className='text-center py-8 text-xl text-red-600'>Error loading statistics.</div>;
+  }
+
+  const {
+    totalProducts = 0,
+    totalOrders = 0,
+    totalApprovedOrders = 0,
+    totalRevenue = 0
+  } = stats;
+
+  const formattedRevenue = `$${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+  const cardData = [
+    {
+      title: "Total Products",
+      value: totalProducts.toLocaleString(),
+      icon: BsFillHouseDoorFill,
+      colorClass: 'border-cyan-500',
+      gradientClass: 'bg-gradient-to-r from-cyan-500 to-teal-500'
+    },
+    {
+      title: "Total Orders",
+      value: totalOrders.toLocaleString(),
+      icon: BsFillCartPlusFill,
+      colorClass: 'border-yellow-500',
+      gradientClass: 'bg-gradient-to-r from-yellow-500 to-orange-500'
+    },
+    {
+      title: "Approved Orders",
+      value: totalApprovedOrders.toLocaleString(),
+      icon: FaCheckCircle,
+      colorClass: 'border-green-500',
+      gradientClass: 'bg-gradient-to-r from-green-500 to-lime-500'
+    },
+    {
+      title: "Total Revenue",
+      value: formattedRevenue,
+      icon: FaDollarSign,
+      colorClass: 'border-indigo-500',
+      gradientClass: 'bg-gradient-to-r from-indigo-500 to-purple-500'
+    },
+  ];
+
+  return (
+    <div>
+      <div className='mt-12'>
+        <div className='mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          {/* StatCard */}
+          {cardData.map((data, index) => (
+            <StatCard
+              key={index}
+              title={data.title}
+              value={data.value}
+              icon={data.icon}
+              colorClass={data.colorClass}
+              gradientClass={data.gradientClass}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default ManagerStatistics
