@@ -1,3 +1,5 @@
+// File: PendingOrders.jsx
+
 import React from 'react';
 import PendingOrderDataRow from '../../../components/Dashboard/TableRows/PendingOrderDataRow';
 import useAuth from './../../../hooks/useAuth';
@@ -7,19 +9,15 @@ import LoadingSpinner from './../../../components/Shared/LoadingSpinner';
 
 const PendingOrders = () => {
 
-  const { user } = useAuth(); // Logged in user ke newa holo
+  const { user } = useAuth(); 
 
-  // useQuery hook use kore pending orders fetch kora holo
   const { data: pendingOrders = [], isLoading, refetch } = useQuery({
     queryKey: ['pendingOrders', user?.email],
-    // Backend API call: /approve-orders/:email
     queryFn: async () => {
       const { data } = await axios(`${import.meta.env.VITE_API_URL}/approve-orders/${user?.email}`);
       return data;
-
-
     },
-    enabled: !!user?.email, // User email thakle-i query run hobe
+    enabled: !!user?.email, 
   });
 
   if (isLoading) return <LoadingSpinner />;
@@ -36,51 +34,63 @@ const PendingOrders = () => {
                   <tr>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Order Id
                     </th>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       User
                     </th>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Product
                     </th>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Quantity
                     </th>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Order Date
                     </th>
 
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {pendingOrders.map(order => (
-                    <PendingOrderDataRow
-                      key={order._id}
-                      order={order}
-                      refetch={refetch} // Refetch function pass kora holo action er por data refresh korar jonno
-                    />
-                  ))}
+                  {/* ✅ এইখানে পরিবর্তন করা হলো */}
+                  {pendingOrders.length === 0 ? (
+                    <tr>
+                      <td colSpan="6" className="px-5 py-5 border-b border-gray-200 bg-white text-sm text-center">
+                        <p className="text-xl font-medium text-gray-500 py-10">
+                          💔 No pending orders available right now!
+                        </p>
+                      </td>
+                    </tr>
+                  ) : (
+                    pendingOrders.map(order => (
+                      <PendingOrderDataRow
+                        key={order._id}
+                        order={order}
+                        refetch={refetch}
+                      />
+                    ))
+                  )}
+                  {/* ✅ পরিবর্তন শেষ */}
                 </tbody>
               </table>
             </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import UserDataRow from '../../../components/Dashboard/TableRows/UserDataRow';
 import axios from 'axios';
+import LoadingSpinner from './../../../components/Shared/LoadingSpinner';
 
 const ManageUsers = () => {
     // 1. State for storing all users and loading status
@@ -14,6 +15,7 @@ const ManageUsers = () => {
             // ✅ NEW API: Apnake backend-e ekti '/users' API toiri korte hobe
             const response = await axios.get(`${import.meta.env.VITE_API_URL}/users`);
             setUsers(response.data);
+
         } catch (error) {
             console.error('Error fetching users:', error);
         } finally {
@@ -26,7 +28,7 @@ const ManageUsers = () => {
     }, []);
 
     if (loading) {
-        return <div className='text-center py-8 text-xl'>Loading Users...</div>;
+        return <div className='text-center py-8 text-xl'><LoadingSpinner></LoadingSpinner></div>;
     }
 
     return (
