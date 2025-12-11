@@ -1,10 +1,10 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { FaDollarSign, FaHourglassHalf, FaCheckCircle } from 'react-icons/fa';
 import { BsFillCartCheckFill } from 'react-icons/bs';
 import useAuth from '../../../hooks/useAuth'; 
 import LoadingSpinner from './../../Shared/LoadingSpinner';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const StatCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
     <div className={`relative flex flex-col bg-clip-border rounded-xl bg-white shadow-xl overflow-hidden transform transition duration-300 hover:scale-[1.02] border-t-4 ${colorClass}`}>
@@ -23,16 +23,17 @@ const StatCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
         </div>
         <div className={`h-2 ${gradientClass}`}></div>
     </div>
-);
+)
 
-const fetchBuyerStats = async (email) => {
+const BuyerStatistics = () => {
+    const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
+    const fetchBuyerStats = async (email) => {
     if (!email) return {};
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/stats/buyer/${email}`); 
+    const response = await axiosSecure.get(`/stats/buyer/${email}`); 
     return response.data;
 };
 
-const BuyerStatistics = () => {
-    const { user } = useAuth(); 
     const buyerEmail = user?.email; 
     const { 
         data: stats = {}, 

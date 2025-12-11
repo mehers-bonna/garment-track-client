@@ -4,7 +4,7 @@ import AddTrackingModal from './../../Modal/AddTrackingModal';
 import ViewTrackingModal from '../../Modal/ViewTrackingModal';
 
 
-const ApproveOrderDataRow = ({ order, refetchOrders }) => { 
+const ApproveOrderDataRow = ({ order, refetchOrders }) => {
   const [isAddTrackingOpen, setIsAddTrackingOpen] = useState(false);
   const [isViewTrackingOpen, setIsViewTrackingOpen] = useState(false);
 
@@ -32,32 +32,48 @@ const ApproveOrderDataRow = ({ order, refetchOrders }) => {
       />
 
       {/* View Tracking Modal */}
-      <ViewTrackingModal 
-            isOpen={isViewTrackingOpen} 
-            closeModal={closeViewTrackingModal} 
-            order={order} 
-        />
+      <ViewTrackingModal
+        isOpen={isViewTrackingOpen}
+        closeModal={closeViewTrackingModal}
+        order={order}
+      />
+      <tr className='border-b border-gray-200 bg-white md:table-row block mb-4 md:mb-0 shadow md:shadow-none'>
 
-      <tr>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-          <p className='text-gray-900 '>{_id.slice(-6)}</p>
+        {/* Order Id */}
+        <td className='px-5 py-3 md:py-3 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Order Id:</span>
+          <p className='text-gray-900 text-center'>{_id}</p>
         </td>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-          <p className='text-gray-900 '>{buyer}</p>
+
+        {/* User */}
+        <td className='px-5 py-3 md:py-3 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">User:</span>
+          <p className='text-gray-900 text-center'>{buyer}</p>
         </td>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-          <p className='text-gray-900 '>{name}</p>
+
+        {/* Product */}
+        <td className='px-5 py-3 md:py-3 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Product:</span>
+          <p className='text-gray-900 text-center'>{name}</p>
         </td>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-          <p className='text-gray-900 '>{orderQuantity}</p>
+
+        {/* Quantity */}
+        <td className='px-5 py-3 md:py-3 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Quantity:</span>
+          <p className='text-gray-900 text-center'>{orderQuantity}</p>
+
         </td>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-          <p className='text-gray-900 '>{approvedDate}</p>
+
+        {/* Approved Date */}
+        <td className='px-5 py-3 md:py-3 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Approved Date:</span>
+          <p className='text-gray-900 text-center'>{approvedDate}</p>
         </td>
 
         {/* Action Buttons */}
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm '>
-          <div className='flex gap-2 justify-center items-center'>
+        <td className='px-5 py-3 md:py-3 border-b-0 bg-white text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Action:</span>
+          <div className='flex gap-2 justify-center items-center '>
             {/* Add Tracking Button */}
             <button
               onClick={openAddTrackingModal}

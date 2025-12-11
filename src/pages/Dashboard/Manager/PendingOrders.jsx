@@ -1,21 +1,22 @@
 import React from 'react';
 import PendingOrderDataRow from '../../../components/Dashboard/TableRows/PendingOrderDataRow';
 import useAuth from './../../../hooks/useAuth';
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import LoadingSpinner from './../../../components/Shared/LoadingSpinner';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const PendingOrders = () => {
 
-  const { user } = useAuth(); 
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const { data: pendingOrders = [], isLoading, refetch } = useQuery({
     queryKey: ['pendingOrders', user?.email],
     queryFn: async () => {
-      const { data } = await axios(`${import.meta.env.VITE_API_URL}/approve-orders/${user?.email}`);
+      const { data } = await axiosSecure.get(`/approve-orders/${user?.email}`);
       return data;
     },
-    enabled: !!user?.email, 
+    enabled: !!user?.email,
   });
 
   if (isLoading) return <LoadingSpinner />;
@@ -29,7 +30,7 @@ const PendingOrders = () => {
             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
               <table className='min-w-full leading-normal'>
                 <thead>
-                  <tr>
+                  <tr className='hidden md:table-row'>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'

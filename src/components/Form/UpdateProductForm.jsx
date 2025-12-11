@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import useAuth from '../../hooks/useAuth';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const imageUpload = async (image) => {
     const formData = new FormData();
@@ -19,6 +20,7 @@ const imageUpload = async (image) => {
 
 const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
     const { user } = useAuth();
+    const axiosSecure = useAxiosSecure();
     const queryClient = useQueryClient();
 
 
@@ -38,8 +40,8 @@ const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
     const { mutateAsync } = useMutation({
         mutationFn: async (updatedProductData) => {
 
-            const { data } = await axios.put(
-                `${import.meta.env.VITE_API_URL}/product/${product._id}`,
+            const { data } = await axiosSecure.put(
+                `/product/${product._id}`,
                 updatedProductData
             );
             return data;

@@ -1,19 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import ProductDataRow from '../../../components/Dashboard/TableRows/ProductDataRow';
 import useAuth from '../../../hooks/useAuth';
-import axios from 'axios';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const ManageProduct = () => {
 
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
   const { data: products = [], isLoading } = useQuery({
     queryKey: ['product', user?.email],
     queryFn: async () => {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/manage-product/${user?.email}`);
+      const result = await axiosSecure.get(`/manage-product/${user?.email}`);
       return result.data;
     },
+    enabled: !!user?.email,
   });
   console.log("Fetched Products:", products);
   console.log("Logged User Email:", user?.email);
@@ -31,41 +33,41 @@ const ManageProduct = () => {
             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
               <table className='min-w-full leading-normal'>
                 <thead>
-                  <tr>
+                  <tr className='hidden md:table-row'>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Image
                     </th>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Name
                     </th>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Price
                     </th>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Payment Mode
                     </th>
 
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Delete
                     </th>
                     <th
                       scope='col'
-                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
+                      className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
                       Update
                     </th>

@@ -1,16 +1,17 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
-import axios from 'axios'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import useAuth from '../../hooks/useAuth'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
 
 const DeleteModal = ({ closeModal, isOpen, id, refetch }) => {
   const { user } = useAuth()
   const queryClient = useQueryClient()
+  const axiosSecure = useAxiosSecure()
 
   const { mutateAsync } = useMutation({
     mutationFn: async () => {
-      const { data } = await axios.delete(`${import.meta.env.VITE_API_URL}/product/${id}`)
+      const { data } = await axiosSecure.delete(`/product/${id}`)
       return data
     },
     onSuccess: () => {

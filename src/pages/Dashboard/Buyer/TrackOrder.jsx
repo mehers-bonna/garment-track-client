@@ -1,11 +1,11 @@
 import React, { useState } from 'react'; 
 import { useParams, useNavigate } from 'react-router'; 
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import LoadingSpinner from './../../../components/Shared/LoadingSpinner';
 import { HiOutlineLocationMarker } from 'react-icons/hi';
 import { BiTimeFive } from 'react-icons/bi';
 import { FaCheckCircle, FaTruck } from 'react-icons/fa';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 const statusIcons = {
     'Order Placed': <FaCheckCircle className="text-blue-500 text-xl" />,
     'Cutting Completed': <FaCheckCircle className="text-indigo-500 text-xl" />,
@@ -22,7 +22,8 @@ const statusIcons = {
 const TrackOrder = () => {
     const { orderId } = useParams();
     const navigate = useNavigate(); 
-    const [inputOrderId, setInputOrderId] = useState(''); 
+    const [inputOrderId, setInputOrderId] = useState('');
+    const axiosSecure = useAxiosSecure();
     const { 
         data: order = {}, 
         isLoading, 
@@ -31,8 +32,8 @@ const TrackOrder = () => {
         queryKey: ['orderTracking', orderId],
         queryFn: async () => {
             if (!orderId) return null; 
-            const { data } = await axios.get(
-                `${import.meta.env.VITE_API_URL}/order/${orderId}` 
+            const { data } = await axiosSecure.get(
+                `/order/${orderId}` 
             );
 
             return data;

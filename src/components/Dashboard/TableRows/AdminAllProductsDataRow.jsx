@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import DeleteModal from '../../Modal/DeleteModal';
 import UpdateProductModal from '../../Modal/UpdateProductModal';
-import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AdminAllProductsDataRow = ({ product, refetch }) => {
   const queryClient = useQueryClient();
@@ -11,6 +11,7 @@ const AdminAllProductsDataRow = ({ product, refetch }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const initialShowOnHome = (product.showOnHome === true || product.showOnHome === "true");
   const [showOnHome, setShowOnHome] = useState(initialShowOnHome);
+  const axiosSecure = useAxiosSecure();
 
   function openDeleteModal() { setIsDeleteModalOpen(true) }
   function closeDeleteModal() { setIsDeleteModalOpen(false) }
@@ -22,8 +23,8 @@ const AdminAllProductsDataRow = ({ product, refetch }) => {
     setShowOnHome(newStatus);
 
     try {
-      const { data } = await axios.put(
-        `${import.meta.env.VITE_API_URL}/products/toggle-home/${product._id}`,
+      const { data } = await axiosSecure.put(
+        `/products/toggle-home/${product._id}`,
         { showOnHome: newStatus }
       );
 
@@ -45,9 +46,11 @@ const AdminAllProductsDataRow = ({ product, refetch }) => {
 
 
   return (
-    <tr>
-      {/* ... Image, Name, Price, Category, Created By TDs ... */}
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+    <tr className='border-b border-gray-200 bg-white md:table-row block mb-4 md:mb-0 shadow md:shadow-none'>
+
+      {/* Image */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+        <span className="md:hidden font-bold block text-xs text-gray-500 mb-1">Image:</span>
         <div className='flex items-center'>
           <div className='shrink-0'>
             <div className='block relative'>
@@ -56,15 +59,35 @@ const AdminAllProductsDataRow = ({ product, refetch }) => {
           </div>
         </div>
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'><p className='text-gray-900 '>{name}</p></td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'><p className='text-gray-900 '>${price}</p></td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'><p className='text-gray-900 '>{category}</p></td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'><p className='text-gray-900 '>{product?.manager?.name}</p></td>
+
+      {/* Name */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Name:</span>
+        <p className='text-gray-900 '>{name}</p>
+      </td>
+
+      {/* Price */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Price:</span>
+        <p className='text-gray-900 '>${price}</p>
+      </td>
+
+      {/* Category */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Category:</span>
+        <p className='text-gray-900 '>{category}</p>
+      </td>
+
+      {/* Created By */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Created By:</span>
+        <p className='text-gray-900 '>{product?.manager?.name}</p>
+      </td>
 
       {/* Show on Home Toggle */}
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <label htmlFor={`toggle-${product._id}`} className='flex items-center cursor-pointer'>
-          {/* ... Toggle Switch Code ... */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+        <span className="md:hidden font-bold block text-xs text-gray-500 mb-1">Show on Home:</span>
+        <label htmlFor={`toggle-${product._id}`} className='flex items-center cursor-pointer justify-start md:justify-start'>
           <div className='relative'>
             <input type='checkbox' id={`toggle-${product._id}`} className='sr-only' checked={showOnHome} onChange={handleToggleHome} />
             <div className='block bg-gray-600 w-10 h-6 rounded-full'></div>
@@ -75,8 +98,9 @@ const AdminAllProductsDataRow = ({ product, refetch }) => {
       </td>
 
       {/* SINGLE TD FOR BOTH BUTTONS */}
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <div className='flex gap-2 items-center'>
+      <td className='px-5 py-3 md:py-5 border-b-0 bg-white text-sm block md:table-cell'>
+        <span className="md:hidden font-bold block text-xs text-gray-500 mb-1">Action:</span>
+        <div className='flex gap-2 items-center justify-start md:justify-start'>
 
           {/* Delete Button */}
           <span onClick={openDeleteModal} className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-red-900 leading-tight whitespace-nowrap'>

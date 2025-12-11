@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import ViewOrderModal from './../../Modal/ViewOrderModal';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const PendingOrderDataRow = ({ order, refetch }) => {
     // Modal State
@@ -11,18 +11,19 @@ const PendingOrderDataRow = ({ order, refetch }) => {
     const openModal = () => setIsOpen(true);
 
     const queryClient = useQueryClient();
-    
+    const axiosSecure = useAxiosSecure();
+
     const { mutateAsync } = useMutation({
         mutationFn: async ({ id, status }) => {
-            const { data } = await axios.put(
-                `${import.meta.env.VITE_API_URL}/order-status/${id}`,
+            const { data } = await axiosSecure.put(
+                `/order-status/${id}`,
                 { status }
             );
             return data;
         },
         onSuccess: (data, variables) => {
             toast.success(`Order ${variables.status} Successfully!`);
-            refetch(); 
+            refetch();
         },
         onError: (error) => {
             toast.error(`Operation failed: ${error.message}`);
@@ -35,52 +36,66 @@ const PendingOrderDataRow = ({ order, refetch }) => {
             console.error(err);
         }
     };
-    
+
     const { _id, buyer, name, orderQuantity, status } = order;
 
     const handleViewDetails = () => {
-        openModal(); 
+        openModal();
     };
-    
-    const orderDate = new Date().toLocaleDateString('en-US'); 
+
+    const orderDate = new Date().toLocaleDateString('en-US');
 
     return (
         <>
             <ViewOrderModal
                 isOpen={isOpen}
                 closeModal={closeModal}
-                order={order} 
+                order={order}
             />
+            <tr className='border-b border-gray-200 bg-white md:table-row block mb-4 md:mb-0 shadow md:shadow-none'>
 
-            <tr>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-                    <p className='text-gray-900'>{_id}</p> 
+                {/* Order Id */}
+                <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+                    <span className="md:hidden font-bold block text-xs text-gray-500">Order Id:</span>
+                    <p className='text-gray-900 text-center'>{_id}</p>
                 </td>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-                    <p className='text-gray-900'>{buyer}</p> 
+
+                {/*  User */}
+                <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left '>
+                    <span className="md:hidden font-bold block text-xs text-gray-500">User:</span>
+                    <p className='text-gray-900 text-center'>{buyer}</p>
                 </td>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-                    <p className='text-gray-900'>{name}</p> 
+
+                {/* Product */}
+                <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+                    <span className="md:hidden font-bold block text-xs text-gray-500">Product:</span>
+                    <p className='text-gray-900 text-center'>{name}</p>
                 </td>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-                    <p className='text-gray-900'>{orderQuantity}</p> 
+
+                {/* Quantity */}
+                <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+                    <span className="md:hidden font-bold block text-xs text-gray-500">Quantity:</span>
+                    <p className='text-gray-900 text-center'>{orderQuantity}</p>
                 </td>
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm text-center'>
-                    <p className='text-gray-900'>{orderDate}</p> 
+
+                {/* Order Date */}
+                <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell md:text-left'>
+                    <span className="md:hidden font-bold block text-xs text-gray-500">Order Date:</span>
+                    <p className='text-gray-900 text-center'>{orderDate}</p>
                 </td>
 
                 {/* Action Buttons */}
-                <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-                    <div className='flex gap-2 items-center justify-center'>
+                <td className='px-5 py-3 md:py-5 border-b-0 bg-white text-sm block md:table-cell'>
+                    <span className="md:hidden font-bold block text-xs text-gray-500">Action:</span>
+                    <div className='flex gap-2 justify-center items-center'>
                         {/* Approve Button */}
                         <button
                             onClick={() => handleStatusUpdate('Approved')}
-                            disabled={status !== 'Pending'} 
-                            className={`relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold leading-tight rounded-full ${
-                                status === 'Pending' 
-                                    ? 'text-green-900 bg-green-200 hover:bg-green-300 transition' 
+                            disabled={status !== 'Pending'}
+                            className={`relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold leading-tight rounded-full ${status === 'Pending'
+                                    ? 'text-green-900 bg-green-200 hover:bg-green-300 transition'
                                     : 'text-gray-500 bg-gray-100'
-                            }`}
+                                }`}
                         >
                             <span className='relative'>Approve</span>
                         </button>
@@ -88,16 +103,15 @@ const PendingOrderDataRow = ({ order, refetch }) => {
                         {/* Reject Button */}
                         <button
                             onClick={() => handleStatusUpdate('Rejected')}
-                            disabled={status !== 'Pending'} 
-                             className={`relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold leading-tight rounded-full ${
-                                status === 'Pending' 
-                                    ? 'text-red-900 bg-red-200 hover:bg-red-300 transition' 
+                            disabled={status !== 'Pending'}
+                            className={`relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold leading-tight rounded-full ${status === 'Pending'
+                                    ? 'text-red-900 bg-red-200 hover:bg-red-300 transition'
                                     : 'text-gray-500 bg-gray-100'
-                            }`}
+                                }`}
                         >
                             <span className='relative'>Reject</span>
                         </button>
-                        
+
                         {/* View Button */}
                         <button
                             onClick={handleViewDetails}

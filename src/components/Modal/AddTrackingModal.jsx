@@ -2,8 +2,8 @@ import { Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@
 import React from 'react';
 import toast from 'react-hot-toast';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 // Tracking status options
 const trackingStatuses = [
@@ -20,10 +20,12 @@ const trackingStatuses = [
 
 const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const axiosSecure = useAxiosSecure();
+
     const { mutateAsync: addTracking, isPending } = useMutation({
         mutationFn: async (trackingData) => {
-            const { data } = await axios.put(
-                `${import.meta.env.VITE_API_URL}/order-tracking/${order._id}`,
+            const { data } = await axiosSecure.put(
+                `/order-tracking/${order._id}`,
                 trackingData
             );
             return data;

@@ -5,18 +5,18 @@ import OrderModal from '../../components/Modal/OrderModal'
 import { useState } from 'react'
 import { useParams } from 'react-router'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
 import LoadingSpinner from '../../components/Shared/LoadingSpinner'
-import toast from 'react-hot-toast'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
 
 const ProductDetails = () => {
   let [isOpen, setIsOpen] = useState(false)
   const { id } = useParams()
+  const axiosSecure = useAxiosSecure()
 
   const { data: product = {}, isLoading } = useQuery({
     queryKey: ['product', id],
     queryFn: async () => {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/products/${id}`)
+      const result = await axiosSecure.get(`/products/${id}`)
       return result.data
     },
   })

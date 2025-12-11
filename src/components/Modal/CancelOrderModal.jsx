@@ -1,14 +1,15 @@
 import React from 'react';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const CancelOrderModal = ({ order, isOpen, closeModal, refetchOrders }) => {
+    const axiosSecure = useAxiosSecure();
     if (!isOpen || !order) return null;
 
     const handleCancel = async () => {
         try {
-            const { data } = await axios.put(
-                `${import.meta.env.VITE_API_URL}/order-status/${order._id}`,
+            const { data } = await axiosSecure.put(
+                `/order-status/${order._id}`,
                 { status: 'Canceled' }
             );
 

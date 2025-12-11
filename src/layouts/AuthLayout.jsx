@@ -11,7 +11,10 @@ const AuthLayout = () => {
            </header>
            <main className='w-9/12 mx-auto py-5'>
              <Outlet></Outlet>
-           </main>  
+           </main> 
+           <footer>
+            <Footer></Footer>
+            </footer> 
         </div>
     );
 };

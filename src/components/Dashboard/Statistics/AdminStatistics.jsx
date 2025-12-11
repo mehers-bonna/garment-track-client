@@ -2,13 +2,8 @@ import React from 'react'
 import { FaUserAlt, FaDollarSign } from 'react-icons/fa'
 import { BsFillCartPlusFill, BsFillHouseDoorFill } from 'react-icons/bs'
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import LoadingSpinner from './../../Shared/LoadingSpinner';
-
-const fetchAdminStats = async () => {
-  const response = await axios.get(`${import.meta.env.VITE_API_URL}/stats/admin`);
-  return response.data;
-};
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const StatCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
   <div className={`relative flex flex-col bg-clip-border rounded-xl bg-white shadow-xl overflow-hidden transform transition duration-300 hover:scale-[1.02] border-t-4 ${colorClass}`}>
@@ -32,6 +27,14 @@ const StatCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
 
 
 const AdminStatistics = () => {
+  const axiosSecure = useAxiosSecure();
+
+  const fetchAdminStats = async () => {
+    const response = await axiosSecure.get(`/stats/admin`);
+    return response.data;
+  };
+
+
   const {
     data: stats = {},
     isLoading,

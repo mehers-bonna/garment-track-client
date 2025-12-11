@@ -1,15 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 import ApproveOrderDataRow from '../../../components/Dashboard/TableRows/ApproveOrderDataRow'
-import axios from 'axios'
 import useAuth from '../../../hooks/useAuth'
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner'
+import useAxiosSecure from '../../../hooks/useAxiosSecure'
 
 const ApprovedOrders = () => {
   const { user } = useAuth()
+  const axiosSecure = useAxiosSecure()
+
   const { data: orders = [], isLoading, refetch } = useQuery({
-    queryKey: ['orders', user?.email],
+    queryKey: ['approvedOrders', user?.email],
     queryFn: async () => {
-      const result = await axios(`${import.meta.env.VITE_API_URL}/approved-orders/${user?.email}`)
+      const result = await axiosSecure.get(`/approved-orders/${user?.email}`)
       return result.data
     },
     enabled: !!user?.email,
@@ -34,7 +36,7 @@ const ApprovedOrders = () => {
             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
               <table className='min-w-full leading-normal'>
                 <thead>
-                  <tr>
+                  <tr className='hidden md:table-row'>
                     <th
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'

@@ -1,11 +1,13 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
-import axios from 'axios'
+import useAxiosSecure from '../../hooks/useAxiosSecure'
 const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
   const [updatedRole, setUpdatedRole] = useState(user.role)
   const [updatedStatus, setUpdatedStatus] = useState(user.status)
   const [suspendReason, setSuspendReason] = useState(user.suspendReason || '')
+  const axiosSecure = useAxiosSecure();
+
   const handleUpdateUser = async (e) => {
     e.preventDefault()
     closeModal()
@@ -18,7 +20,7 @@ const UpdateUserRoleModal = ({ isOpen, closeModal, user, refetch }) => {
     }
 
     try {
-      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/user/${user._id}`, userDataToUpdate)
+      const { data } = await axiosSecure.put(`/user/${user._id}`, userDataToUpdate)
 
       if (data.modifiedCount > 0) {
         toast.success('User updated successfully!')

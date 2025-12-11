@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
 import AdminAllProductsDataRow from '../../../components/Dashboard/TableRows/AdminAllProductsDataRow';
 import { toast } from 'react-hot-toast';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AdminAllProducts = () => {
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
+
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/products`);
+      const response = await axiosSecure.get(`/products`);
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -43,7 +45,7 @@ const AdminAllProducts = () => {
             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
               <table className='min-w-full leading-normal'>
                 <thead>
-                  <tr>
+                  <tr className='hidden md:table-row'>
                     <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Image</th>
                     <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Name</th>
                     <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Price</th>

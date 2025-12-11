@@ -1,11 +1,12 @@
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import useAuth from '../../hooks/useAuth';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const OrderModal = ({ closeModal, isOpen, product }) => {
     const { user } = useAuth();
+    const axiosSecure = useAxiosSecure()
     const { _id, name, category, price, availableQuantity, minimumOrderQuantity, manager } = product || {};
     const initialQuantity = minimumOrderQuantity || 1;
 
@@ -39,7 +40,7 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
         }
         if (quantity > availableQuantity) {
             toast.error(`Only ${availableQuantity} units are available.`);
-            setOrderQuantity(availableQuantity); // Set to max available
+            setOrderQuantity(availableQuantity); 
             setTotalPrice(price * availableQuantity);
             return;
         }
@@ -82,7 +83,8 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
             }
         };
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/create-checkout-session`,
+            const { data } = await axiosSecure.post(
+                `/create-checkout-session`,
                 paymentInfo
             );
             if (data.url) {
@@ -93,7 +95,7 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
             
         } catch (err) {
             console.error(err);
-            toast.dismiss();
+            // toast.dismiss();
             toast.error("Could not initiate payment. Please try again.");
         }
     };

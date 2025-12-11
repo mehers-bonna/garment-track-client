@@ -2,9 +2,9 @@ import React from 'react'
 import { FaDollarSign, FaCheckCircle } from 'react-icons/fa'
 import { BsFillCartPlusFill, BsFillHouseDoorFill } from 'react-icons/bs'
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import LoadingSpinner from './../../Shared/LoadingSpinner';
 import useAuth from '../../../hooks/useAuth';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const StatCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
   <div className={`relative flex flex-col bg-clip-border rounded-xl bg-white shadow-xl overflow-hidden transform transition duration-300 hover:scale-[1.02] border-t-4 ${colorClass}`}>
@@ -25,16 +25,18 @@ const StatCard = ({ title, value, icon: Icon, colorClass, gradientClass }) => (
   </div>
 );
 
-const fetchManagerStats = async (email) => {
-  if (!email) return {};
-  const response = await axios.get(`${import.meta.env.VITE_API_URL}/stats/manager/${email}`);
-  return response.data;
-};
-
-
 const ManagerStatistics = () => {
   const { user } = useAuth();
-  const managerEmail = user?.email; 
+  const axiosSecure = useAxiosSecure();
+  const managerEmail = user?.email;
+
+  const fetchManagerStats = async (email) => {
+  if (!email) return {};
+  const response = await axiosSecure.get(`/stats/manager/${email}`);
+  return response.data;
+};
+  
+  
   const {
     data: stats = {},
     isLoading,

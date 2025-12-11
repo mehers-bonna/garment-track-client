@@ -15,6 +15,7 @@ import ManagerMenu from './Menu/ManagerMenu'
 import BuyerMenu from './Menu/BuyerMenu';
 import useRole from '../../../hooks/useRole'
 import LoadingSpinner from './../../Shared/LoadingSpinner';
+import { FaHome } from 'react-icons/fa'
 
 const Sidebar = () => {
   const { logOut } = useAuth()
@@ -58,6 +59,7 @@ const Sidebar = () => {
             {/* Logo */}
             <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-[#FEEAE6] mx-auto'>
               <Link to='/'>
+              <h1 className='flex justify-center items-center gap-1 font-bold'> <span><FaHome /></span>⏪ Go Home</h1>
                 <img src={logo} alt='logo' width='100' height='100' />
               </Link>
             </div>

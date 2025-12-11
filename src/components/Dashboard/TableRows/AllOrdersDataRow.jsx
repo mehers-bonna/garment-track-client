@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import OrderDetailsModal from '../../Modal/OrderDetailsModal';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AllOrdersDataRow = ({ order, refetch }) => {
   const {
@@ -12,6 +12,7 @@ const AllOrdersDataRow = ({ order, refetch }) => {
     orderQuantity,
     status
   } = order;
+  const axiosSecure = useAxiosSecure();
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,8 +34,8 @@ const AllOrdersDataRow = ({ order, refetch }) => {
     setCurrentStatus(newStatus);
 
     try {
-      const { data } = await axios.put(
-        `${import.meta.env.VITE_API_URL}/order-status/${_id}`,
+      const { data } = await axiosSecure.put(
+        `/order-status/${_id}`,
         { status: newStatus }
       );
 
@@ -79,25 +80,35 @@ const AllOrdersDataRow = ({ order, refetch }) => {
         closeModal={closeModal}
       />
 
-      <tr>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-          {/* Order ID*/}
+      <tr className='border-b border-gray-200 bg-white md:table-row block mb-4 md:mb-0 shadow md:shadow-none'>
+
+        {/* Order ID*/}
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Order ID:</span>
           <p className='text-gray-900 '>{_id}</p>
         </td>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-          {/* User Email */}
+
+        {/* User Email */}
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Buyer Email:</span>
           <p className='text-gray-900 '>{buyer}</p>
         </td>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-          {/* Product Name */}
+
+        {/* Product Name */}
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Product:</span>
           <p className='text-gray-900 '>{name}</p>
         </td>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-          {/* Quantity */}
+
+        {/* Quantity */}
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Quantity:</span>
           <p className='text-gray-900 '>{orderQuantity}</p>
         </td>
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-          {/* Status Pill */}
+
+        {/* Status Pill */}
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500">Current Status:</span>
           <span
             className={`relative inline-block px-3 py-1 font-semibold leading-tight ${getStatusColor(currentStatus)} rounded-full`}
           >
@@ -105,7 +116,9 @@ const AllOrdersDataRow = ({ order, refetch }) => {
           </span>
         </td>
 
-        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+        {/* Actions */}
+        <td className='px-5 py-3 md:py-5 border-b-0 bg-white text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500 mb-1">Actions:</span>
           <div className='flex items-center gap-2'>
             {/* Status Change Dropdown */}
             <select

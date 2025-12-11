@@ -3,8 +3,8 @@ import { useState } from 'react'
 import DeleteModal from '../../Modal/DeleteModal'
 import UpdateProductModal from '../../Modal/UpdateProductModal';
 
-const ProductDataRow = ({product}) => {
-    let [isOpen, setIsOpen] = useState(false)
+const ProductDataRow = ({ product }) => {
+  let [isOpen, setIsOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
 
   function openModal() {
@@ -14,34 +14,48 @@ const ProductDataRow = ({product}) => {
     setIsOpen(false)
   }
 
-  const {image, name, price, paymentOptions} = product
+  const { image, name, price, paymentOptions } = product
 
   return (
-    <tr>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
-        <div className='flex items-center'>
+    <tr className='border-b border-gray-200 bg-white md:table-row block mb-4 md:mb-0 shadow md:shadow-none'>
+
+      {/* Image */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Image:</span>
+        <div className='flex items-center justify-center'>
           <div className='shrink-0'>
             <div className='block relative'>
               <img
                 alt='profile'
                 src={image}
-                className='mx-auto object-cover rounded h-10 w-15 '
+                className='mx-auto object-cover rounded h-10 w-15'
               />
             </div>
           </div>
         </div>
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+
+      {/* Name */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell text-center'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Name:</span>
         <p className='text-gray-900 '>{name}</p>
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+
+      {/* Price */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell text-center'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Price:</span>
         <p className='text-gray-900 '>${price}</p>
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+
+      {/* Payment Mode */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell text-center'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Payment Mode:</span>
         <p className='text-gray-900 '>{paymentOptions}</p>
       </td>
 
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+      {/* Delete Action */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell text-center'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Action:</span>
         <span
           onClick={openModal}
           className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
@@ -52,13 +66,16 @@ const ProductDataRow = ({product}) => {
           ></span>
           <span className='relative'>Delete</span>
         </span>
-        <DeleteModal 
-        isOpen={isOpen} 
-        closeModal={closeModal} 
-        id={product._id}
+        <DeleteModal
+          isOpen={isOpen}
+          closeModal={closeModal}
+          id={product._id}
         />
       </td>
-      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
+
+      {/* Update Action */}
+      <td className='px-5 py-3 md:py-5 border-b md:border-b-0 md:border-gray-200 bg-white text-sm block md:table-cell text-center'>
+        <span className="md:hidden font-bold block text-xs text-gray-500">Action:</span>
         <span
           onClick={() => setIsEditModalOpen(true)}
           className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
