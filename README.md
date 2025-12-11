@@ -1,16 +1,48 @@
-# React + Vite
+## Project Name: Garment Track(Garments Order & Production Tracker System)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## Purpose:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+"Garment Track" is a robust web application designed specifically for the garment and apparel manufacturing industry. Its primary goal is to streamline the tracking and management of raw materials inventory, production processes, and customer orders in a unified dashboard. It helps factory administrators and managers gain real-time visibility into stock levels, pending orders, and manufacturing status, ensuring efficient production planning and minimizing wastage.
 
-## React Compiler
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+##Live URL: 
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Key Features:
+
+
+1.User Roles & Authentication: Secure sign-in/sign-up system with distinct roles (e.g., Admin, Manager, Inventory Staff).
+
+2.Centralized Product Management: Admins can view, add, update, and manage the master list of all finished goods and raw materials.
+
+3.Real-time Inventory Tracking: Detailed monitoring of raw material stock levels (fabric, thread, buttons, etc.) to prevent shortages.
+
+4.Order Tracking: Ability to log new customer orders, assign materials, track production status (Pending, Cutting, Sewing, Finishing, Shipped), and manage deadlines.
+
+5.Production Planning: Tools to allocate materials to specific orders and calculate required quantities based on Bill of Materials (BOM) data.
+
+6.Dashboard Analytics: Visual summary of key metrics like total inventory value, orders in progress, and stock alerts.
+
+7.Responsive Design: Optimized layout for viewing on desktop and mobile devices (using Tailwind CSS).
+
+
+## NPM Packages Used:
+
+react-router-dom
+
+@tanstack/react-query
+
+react-hot-toast
+
+tailwindcss
+
+daisyui
+
+axios
+
+firebase
+
+localforage / match-sorter / sort-by
+
+moment
