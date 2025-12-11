@@ -6,7 +6,7 @@
 "Garment Track" is a robust web application designed specifically for the garment and apparel manufacturing industry. Its primary goal is to streamline the tracking and management of raw materials inventory, production processes, and customer orders in a unified dashboard. It helps factory administrators and managers gain real-time visibility into stock levels, pending orders, and manufacturing status, ensuring efficient production planning and minimizing wastage.
 
 
-##Live URL: 
+##Live URL:  https://garment-track.web.app
 
 
 ## Key Features:
