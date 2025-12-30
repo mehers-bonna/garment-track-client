@@ -1,7 +1,7 @@
 # 👔 Garments Order & Production Tracker System - GarmentTrack
 
 <p align="center">
-  <img src="https://i.ibb.co.com/nM9TjHJZ/garment-Track.png" alt="Garment Track Screenshot" width="100%" />
+  <img src="garmentTrack.png" alt="Garment Track Screenshot" width="100%" />
 </p>
 
 
@@ -66,7 +66,8 @@ Follow these steps to run the project locally:
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/mehers-bonna/garment-track-client.git](https://github.com/mehers-bonna/garment-track-client.git)
+   git clone https://github.com/mehers-bonna/garment-track-client.git
+   
 2. cd garment-track-client
 
 3. npm install
