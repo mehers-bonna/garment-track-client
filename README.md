@@ -1,6 +1,8 @@
 # 👔 Garments Order & Production Tracker System - GarmentTrack
 
-![Garment Track Screenshot](https://i.ibb.co.com/nM9TjHJZ/garment-Track.png)
+<p align="center">
+  <img src="https://i.ibb.co.com/nM9TjHJZ/garment-Track.png" alt="Garment Track Screenshot" width="100%" />
+</p>
 
 
 A comprehensive MERN stack platform designed for small to medium garments factories to streamline production workflows, manage inventory, and track buyer orders from cutting to delivery.
