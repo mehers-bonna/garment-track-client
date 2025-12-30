@@ -1,7 +1,7 @@
 # 👔 Garments Order & Production Tracker System - GarmentTrack
 
 <p align="center">
-  <img src="garmentTrack.png" alt="Garment Track Screenshot" width="100%" />
+  <img src="garmentTrack.PNG" alt="Garment Track Screenshot" width="100%" />
 </p>
 
 
