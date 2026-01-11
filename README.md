@@ -8,8 +8,8 @@
 A comprehensive MERN stack platform designed for small to medium garments factories to streamline production workflows, manage inventory, and track buyer orders from cutting to delivery.
 
 ## 🚀 Live Links
-- **Live Website:** https://garment-track.web.app/
-- **Server Repository:** https://github.com/mehers-bonna/garment-track-client.git
+- **Live Website:** https://garment-track.web.app
+- **Client Repository:** https://github.com/mehers-bonna/garment-track-client.git
 
 ---
 
