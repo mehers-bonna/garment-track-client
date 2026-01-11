@@ -5,10 +5,11 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import banner1 from '../../assets/gtBanner1.jpg'
 import banner2 from '../../assets/gtBanner2.jpg'
 import banner3 from '../../assets/gtBanner3.jpg'
+import { Link } from 'react-router';
 
 const Banner = () => {
   return (
-    <div className="w-9/12 mx-auto h-[80vh] relative overflow-hidden rounded-3xl">
+    <div className="w-9/12 mx-auto h-[70vh] relative overflow-hidden rounded-3xl mt-10">
       {/* Carousel */}
       <Carousel
         autoPlay
@@ -66,7 +67,7 @@ const Banner = () => {
           >
             Quality that speaks for itself. Explore our collection and find the perfect product for you.
           </motion.p>
-
+           <Link to='/all-products'>
           <motion.button
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.95 }}
@@ -74,7 +75,9 @@ const Banner = () => {
           >
             View Products
           </motion.button>
+          </Link>
         </motion.div>
+        
       </div>
     </div>
   );

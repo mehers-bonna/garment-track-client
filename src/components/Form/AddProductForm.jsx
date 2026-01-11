@@ -100,17 +100,17 @@ const AddProductForm = () => {
   if (isPending) return <LoadingSpinner></LoadingSpinner>
   if (isError) return <ErrorPage></ErrorPage>
   return (
-    <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 dark:text-gray-100 rounded-xl bg-gray-50 dark:bg-[#121212] transition-colors duration-300 p-4'>
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-5xl bg-white dark:bg-[#1a1a1a] p-8 rounded-xl shadow-lg border dark:border-gray-800 transition-colors duration-300">
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
           <div className='space-y-6'>
             {/* Name */}
             <div className='space-y-1 text-sm'>
-              <label htmlFor='name' className='block text-gray-600'>
+              <label htmlFor='name' className='block text-gray-600 dark:text-gray-400'>
                 Name
               </label>
               <input
-                className='w-full px-4 py-3 text-gray-800 border border-[#442C2E] focus:outline-[#442C2E] rounded-md bg-white'
+                className='w-full px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#442C2E] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-gray-500 rounded-md bg-white dark:bg-[#2a2a2a] transition-colors duration-300'
                 id='name'
                 type='text'
                 placeholder='Product Name'
@@ -130,11 +130,11 @@ const AddProductForm = () => {
             </div>
             {/* Category */}
             <div className='space-y-1 text-sm'>
-              <label htmlFor='category' className='block text-gray-600 '>
+              <label htmlFor='category' className='block text-gray-600 dark:text-gray-400'>
                 Category
               </label>
               <select
-                className='w-full px-4 py-3 border-[#442C2E] focus:outline-[#442C2E] rounded-md bg-white'
+                className='w-full px-4 py-3 border-[#442C2E] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-gray-500 rounded-md bg-white dark:bg-[#2a2a2a] text-gray-800 dark:text-gray-200 transition-colors duration-300'
                 {...register('category', { required: 'Category is required' })}
               >
                 <option value='Select Category'>Select Category</option>
@@ -154,11 +154,11 @@ const AddProductForm = () => {
             </div>
             {/* payment options */}
             <div className='space-y-1 text-sm'>
-              <label htmlFor='payment options' className='block text-gray-600 '>
+              <label htmlFor='payment options' className='block text-gray-600 dark:text-gray-400'>
                 Payment Options
               </label>
               <select
-                className='w-full px-4 py-3 border-[#442C2E] focus:outline-[#442C2E] rounded-md bg-white'
+                className='w-full px-4 py-3 border-[#442C2E] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-gray-500 rounded-md bg-white dark:bg-[#2a2a2a] text-gray-800 dark:text-gray-200 transition-colors duration-300'
                 {...register('paymentOptions', { required: 'Payment Options is required' })}
               >
                 <option value='Select Category'>Select Payment Options</option>
@@ -173,13 +173,13 @@ const AddProductForm = () => {
             </div>
             {/* Description */}
             <div className='space-y-1 text-sm'>
-              <label htmlFor='description' className='block text-gray-600'>
+              <label htmlFor='description' className='block text-gray-600 dark:text-gray-400'>
                 Description
               </label>
               <textarea
                 id='description'
                 placeholder='Write product description here...'
-                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800 border border-[#442C2E] bg-white focus:outline-[#442C2E] '
+                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#442C2E] dark:border-gray-700 bg-white dark:bg-[#2a2a2a] focus:outline-[#442C2E] dark:focus:outline-gray-500 transition-colors duration-300'
                 {...register('description', {
                   required: 'Description is required',
                 })}
@@ -195,12 +195,12 @@ const AddProductForm = () => {
             {/* Price & Quantity */}
             <div className='flex justify-between gap-2'>
               {/* Price */}
-              <div className='space-y-1 text-sm'>
-                <label htmlFor='price' className='block text-gray-600 '>
+              <div className='space-y-1 text-sm w-full'>
+                <label htmlFor='price' className='block text-gray-600 dark:text-gray-400'>
                   Price
                 </label>
                 <input
-                  className='w-full px-4 py-3 text-gray-800 border border-[#442C2E] focus:outline-[#442C2E] rounded-md bg-white'
+                  className='w-full px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#442C2E] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-gray-500 rounded-md bg-white dark:bg-[#2a2a2a] transition-colors duration-300'
                   id='price'
                   type='number'
                   placeholder='Price per unit'
@@ -215,12 +215,12 @@ const AddProductForm = () => {
                 )}
               </div>
               {/* Quantity */}
-              <div className='space-y-1 text-sm'>
-                <label htmlFor='quantity' className='block text-gray-600'>
+              <div className='space-y-1 text-sm w-full'>
+                <label htmlFor='quantity' className='block text-gray-600 dark:text-gray-400'>
                   Available Quantity
                 </label>
                 <input
-                  className='w-full px-4 py-3 text-gray-800 border border-[#442C2E] focus:outline-[#442C2E] rounded-md bg-white'
+                  className='w-full px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#442C2E] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-gray-500 rounded-md bg-white dark:bg-[#2a2a2a] transition-colors duration-300'
                   id='quantity'
                   type='number'
                   placeholder='Available quantity'
@@ -237,11 +237,11 @@ const AddProductForm = () => {
             </div>
             {/* Minimum order Quantity */}
             <div className='space-y-1 text-sm'>
-              <label htmlFor='quantity' className='block text-gray-600'>
+              <label htmlFor='quantity' className='block text-gray-600 dark:text-gray-400'>
                 Minimum order Quantity
               </label>
               <input
-                className='w-full px-4 py-3 text-gray-800 border border-[#442C2E] focus:outline-[#442C2E] rounded-md bg-white'
+                className='w-full px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#442C2E] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-gray-500 rounded-md bg-white dark:bg-[#2a2a2a] transition-colors duration-300'
                 id='quantity'
                 type='number'
                 placeholder='Minimum order quantity'
@@ -257,10 +257,10 @@ const AddProductForm = () => {
             </div>
             {/* Show on Home Checkbox */}
             <div className='space-y-1 text-sm'>
-              <label className='block text-gray-600'>
+              <label className='block text-gray-600 dark:text-gray-400'>
                 Show on Home Page
               </label>
-              <div className='flex items-center gap-2 px-4 py-3 border border-[#442C2E] rounded-md bg-white'>
+              <div className='flex items-center gap-2 px-4 py-3 border border-[#442C2E] dark:border-gray-700 rounded-md bg-white dark:bg-[#2a2a2a] transition-colors duration-300'>
                 <input
                   id='showOnHome'
                   type='checkbox'
@@ -268,11 +268,11 @@ const AddProductForm = () => {
                   className='checkbox checkbox-sm checkbox-secondary'
                   {...register('showOnHome')}
                 />
-                <label htmlFor='showOnHome' className='text-gray-800 cursor-pointer'>
+                <label htmlFor='showOnHome' className='text-gray-800 dark:text-gray-300 cursor-pointer'>
                   Check to display this product on the Home Page (Featured)
                 </label>
               </div>
-              <p className='text-xs text-gray-400 mt-1'>
+              <p className='text-xs text-gray-400 dark:text-gray-500 mt-1'>
                 If unchecked, the product will only be visible on the All Products page.
               </p>
             </div>
@@ -281,7 +281,7 @@ const AddProductForm = () => {
             <div>
               <label
                 htmlFor='image'
-                className='block mb-2 text-sm font-medium text-gray-700'
+                className='block mb-2 text-sm font-medium text-gray-700 dark:text-gray-400'
               >
                 Product Image
               </label>
@@ -304,21 +304,22 @@ const AddProductForm = () => {
                               onChange(e);
                           }}
 
-                          className='block w-full text-sm text-gray-500
+                          className='block w-full text-sm text-gray-500 dark:text-gray-400
                               file:mr-4 file:py-2 file:px-4
                               file:rounded-md file:border-0
                               file:text-sm file:font-semibold
-                              file:file:bg-[#D6A99D] file:text-[#442C2E]
-                              hover:file:bg-lime-50
-                              bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
+                              file:bg-[#D6A99D] file:text-[#442C2E]
+                              dark:file:bg-gray-700 dark:file:text-gray-200
+                              hover:file:bg-lime-50 dark:hover:file:bg-gray-600
+                              bg-gray-100 dark:bg-[#2a2a2a] border border-dashed border-[#442C2E] dark:border-gray-600 rounded-md cursor-pointer
                               focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
-                              py-2'
+                              py-2 transition-colors duration-300'
                       />
                   );
               })()}
               
 
-              <p className='mt-1 text-xs text-gray-400'>
+              <p className='mt-1 text-xs text-gray-400 dark:text-gray-500'>
                 PNG, JPG or JPEG (max 2MB)
               </p>
               {errors.image && (
@@ -332,7 +333,7 @@ const AddProductForm = () => {
                         href={imagePreview}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='text-sm text-blue-500 hover:underline font-medium'
+                        className='text-sm text-blue-500 dark:text-blue-400 hover:underline font-medium'
                     >
                       Preview Image
                     </a>
@@ -343,7 +344,7 @@ const AddProductForm = () => {
             {/* Submit Button */}
             <button
               type='submit'
-              className='w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-[#442C2E] hover:bg-[#D6A99D]'
+              className='w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-[#442C2E] dark:bg-gray-700 hover:bg-[#D6A99D] dark:hover:bg-gray-600'
             >
               {isPending ? (
                 <TbFidgetSpinner className='animate-spin m-auto' />
@@ -357,4 +358,5 @@ const AddProductForm = () => {
     </div>
   )
 };
+
 export default AddProductForm;

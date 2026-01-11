@@ -26,6 +26,8 @@ import TrackOrder from './../pages/Dashboard/Buyer/TrackOrder';
 import MyOrdersDataRow from './../components/Dashboard/TableRows/MyOrdersDataRow';
 import ManagerRoute from './ManagerRoute'
 import AdminRoute from './AdminRoute'
+import HelpSupportSection from '../pages/Help & Support/HelpSupport'
+import PrivacyTermsSection from '../pages/Privacy & Terms/PrivacyTerms'
 
 export const router = createBrowserRouter([
   {
@@ -50,10 +52,16 @@ export const router = createBrowserRouter([
         element: <Contact />,
       },
       {
+        path: '/help-support',
+        element: <HelpSupportSection />,
+      },
+      {
+        path: '/privacy-terms',
+        element: <PrivacyTermsSection />,
+      },
+      {
         path: '/product/:id',
-        element: <PrivateRoute>
-          <ProductDetails />
-        </PrivateRoute>,
+        element: <ProductDetails />,
       },
       {
         path: '/payment-success',

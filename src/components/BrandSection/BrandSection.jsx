@@ -14,8 +14,9 @@ const BrandsSection = () => {
   ];
 
   return (
-    <div className="w-full py-12 bg-gray-100 overflow-hidden rounded-3xl bg-lime-50">
-      <h2 className="text-center text-3xl md:text-4xl font-bold mb-8">
+    /* added bg-lime-50 dark:bg-[#1a1a1a] and border for dark mode */
+    <div className="w-full py-12 bg-lime-50 dark:bg-[#1a1a1a] overflow-hidden rounded-3xl transition-colors duration-300 border dark:border-gray-800 -mt-12">
+      <h2 className="text-center text-3xl md:text-4xl font-bold mb-8 text-[#442C2E] dark:text-[#FEEAE6]">
         Our Trusted Brands
       </h2>
 
@@ -35,7 +36,8 @@ const BrandsSection = () => {
               key={index}
               src={brand.img}
               alt="brand"
-              className="w-20 h-20 grayscale hover:grayscale-0 transition duration-300"
+              /* dark:brightness-125 dark:contrast-125 added to make logos clear on dark bg */
+              className="w-20 h-20 grayscale hover:grayscale-0 dark:brightness-200 dark:contrast-100 transition duration-300"
             />
           ))}
         </motion.div>

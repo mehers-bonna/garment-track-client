@@ -113,17 +113,17 @@ const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
 
 
     return (
-        <div className='w-full flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
-            <form onSubmit={handleSubmit}>
-                <div className='grid grid-cols-1 gap-10'>
-                    <div className='space-y-6'>
+        <div className='w-full flex flex-col justify-center items-center text-gray-800 dark:text-gray-200 rounded-xl bg-gray-50 dark:bg-[#1a1a1a] transition-colors duration-300'>
+            <form onSubmit={handleSubmit} className='w-full'>
+                <div className='grid grid-cols-1 gap-6'>
+                    <div className='space-y-4'>
                         {/* Name */}
                         <div className='space-y-1 text-sm'>
-                            <label htmlFor='name' className='block text-gray-600'>
+                            <label htmlFor='name' className='block text-gray-600 dark:text-gray-400 font-semibold'>
                                 Name
                             </label>
                             <input
-                                className='w-full px-4 py-3 text-gray-800 border border-[#D6A99D] focus:outline-[#442C2E] rounded-md bg-white'
+                                className='w-full px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#D6A99D] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-[#D6A99D] rounded-md bg-white dark:bg-[#242424]'
                                 name='name'
                                 id='name'
                                 type='text'
@@ -136,12 +136,12 @@ const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
 
                         {/* Category */}
                         <div className='space-y-1 text-sm'>
-                            <label htmlFor='category' className='block text-gray-600 '>
+                            <label htmlFor='category' className='block text-gray-600 dark:text-gray-400 font-semibold'>
                                 Category
                             </label>
                             <select
                                 required
-                                className='w-full px-4 py-3 border-[#D6A99D] focus:outline-[#442C2E] rounded-md bg-white'
+                                className='w-full px-4 py-3 border-[#D6A99D] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-[#D6A99D] rounded-md bg-white dark:bg-[#242424] text-gray-800 dark:text-gray-200'
                                 name='category'
                                 value={productData.category}
                                 onChange={handleInputChange}
@@ -159,29 +159,30 @@ const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
 
                         {/* Description */}
                         <div className='space-y-1 text-sm'>
-                            <label htmlFor='description' className='block text-gray-600'>
+                            <label htmlFor='description' className='block text-gray-600 dark:text-gray-400 font-semibold'>
                                 Description
                             </label>
                             <textarea
                                 id='description'
                                 placeholder='Write plant description here...'
-                                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-[#D6A99D] bg-white focus:outline-[#442C2E] '
+                                className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#D6A99D] dark:border-gray-700 bg-white dark:bg-[#242424] focus:outline-[#442C2E] dark:focus:outline-[#D6A99D]'
                                 name='description'
                                 value={productData.description}
                                 onChange={handleInputChange}
                             ></textarea>
                         </div>
                     </div>
-                    <div className='space-y-6 flex flex-col'>
+                    
+                    <div className='space-y-4 flex flex-col'>
                         {/* Price & Quantity */}
-                        <div className='flex justify-between gap-2'>
+                        <div className='flex justify-between gap-4'>
                             {/* Price */}
-                            <div className='space-y-1 text-sm'>
-                                <label htmlFor='price' className='block text-gray-600 '>
+                            <div className='space-y-1 text-sm w-full'>
+                                <label htmlFor='price' className='block text-gray-600 dark:text-gray-400 font-semibold'>
                                     Price
                                 </label>
                                 <input
-                                    className='w-full px-4 py-3 text-gray-800 border border-[#D6A99D] focus:outline-[#442C2E] rounded-md bg-white'
+                                    className='w-full px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#D6A99D] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-[#D6A99D] rounded-md bg-white dark:bg-[#242424]'
                                     name='price'
                                     id='price'
                                     type='number'
@@ -193,12 +194,12 @@ const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
                             </div>
 
                             {/* Quantity */}
-                            <div className='space-y-1 text-sm'>
-                                <label htmlFor='quantity' className='block text-gray-600'>
+                            <div className='space-y-1 text-sm w-full'>
+                                <label htmlFor='quantity' className='block text-gray-600 dark:text-gray-400 font-semibold'>
                                     Quantity
                                 </label>
                                 <input
-                                    className='w-full px-4 py-3 text-gray-800 border border-[#D6A99D] focus:outline-[#442C2E] rounded-md bg-white'
+                                    className='w-full px-4 py-3 text-gray-800 dark:text-gray-200 border border-[#D6A99D] dark:border-gray-700 focus:outline-[#442C2E] dark:focus:outline-[#D6A99D] rounded-md bg-white dark:bg-[#242424]'
                                     name='quantity'
                                     id='quantity'
                                     type='number'
@@ -214,7 +215,7 @@ const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
                         <div>
                             <label
                                 htmlFor='image'
-                                className='block mb-2 text-sm font-medium text-gray-700'
+                                className='block mb-2 text-sm font-medium text-gray-700 dark:text-gray-400'
                             >
                                 {imageText}
                             </label>
@@ -223,21 +224,19 @@ const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
                                 type='file'
                                 id='image'
                                 accept='image/*'
-                                className='block w-full text-sm text-gray-500
+                                className='block w-full text-sm text-gray-500 dark:text-gray-400
                                 file:mr-4 file:py-2 file:px-4
                                 file:rounded-md file:border-0
                                 file:text-sm file:font-semibold
                                 file:bg-[#D6A99D] file:text-[#442C2E]
-                                hover:file:bg-lime-50
-                                bg-gray-100 border border-dashed border-[#442C2E] rounded-md cursor-pointer
-                                focus:outline-none focus:ring-2 focus:ring-[#442C2E] focus:border-[#442C2E]
-                                py-2'
+                                hover:file:bg-[#e2c0b6]
+                                bg-gray-100 dark:bg-[#242424] border border-dashed border-[#442C2E] dark:border-gray-600 rounded-md cursor-pointer
+                                focus:outline-none py-2'
                                 onChange={handleImageChange}
                             />
-                            {/* Image Preview */}
                             {productData.image && !imageText.includes('Uploading') && (
-                                <p className='text-xs text-gray-500 mt-1'>
-                                    Current Image: <a href={productData.image} target='_blank' rel='noopener noreferrer' className='text-blue-500 hover:underline'>View</a>
+                                <p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>
+                                    Current Image: <a href={productData.image} target='_blank' rel='noopener noreferrer' className='text-blue-500 dark:text-blue-400 hover:underline'>View</a>
                                 </p>
                             )}
                         </div>
@@ -245,7 +244,7 @@ const UpdateProductForm = ({ product, setIsEditModalOpen, refetch }) => {
                         {/* Submit Button */}
                         <button
                             type='submit'
-                            className='w-full cursor-pointer p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-[#442C2E]  hover:bg-[#D6A99D]'
+                            className='w-full cursor-pointer p-3 mt-4 text-center font-medium text-white transition duration-200 rounded shadow-md bg-[#442C2E] hover:bg-[#D6A99D] dark:bg-[#D6A99D] dark:text-[#442C2E] dark:hover:bg-[#442C2E] dark:hover:text-white'
                         >
                             Update Product
                         </button>

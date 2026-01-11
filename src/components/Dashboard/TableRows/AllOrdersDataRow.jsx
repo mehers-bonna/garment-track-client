@@ -59,12 +59,12 @@ const AllOrdersDataRow = ({ order, refetch }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Approved':
-        return 'bg-green-200 text-green-900';
+        return 'bg-green-200 text-green-900 dark:bg-green-900/30 dark:text-green-400';
       case 'Rejected':
-        return 'bg-red-200 text-red-900';
+        return 'bg-red-200 text-red-900 dark:bg-red-900/30 dark:text-red-400';
       case 'Pending':
       default:
-        return 'bg-yellow-200 text-yellow-900';
+        return 'bg-yellow-200 text-yellow-900 dark:bg-yellow-900/30 dark:text-yellow-400';
     }
   };
 
@@ -80,35 +80,35 @@ const AllOrdersDataRow = ({ order, refetch }) => {
         closeModal={closeModal}
       />
 
-      <tr className='border-b border-gray-200 bg-white md:table-row block mb-4 md:mb-0 shadow md:shadow-none'>
+      <tr className='border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a1a1a] md:table-row block mb-4 md:mb-0 shadow md:shadow-none transition-colors duration-300'>
 
         {/* Order ID*/}
-        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
-          <span className="md:hidden font-bold block text-xs text-gray-500">Order ID:</span>
-          <p className='text-gray-900 '>{_id}</p>
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a1a1a] text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500 dark:text-gray-400">Order ID:</span>
+          <p className='text-gray-900 dark:text-gray-200 break-all'>{_id}</p>
         </td>
 
         {/* User Email */}
-        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
-          <span className="md:hidden font-bold block text-xs text-gray-500">Buyer Email:</span>
-          <p className='text-gray-900 '>{buyer}</p>
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a1a1a] text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500 dark:text-gray-400">Buyer Email:</span>
+          <p className='text-gray-900 dark:text-gray-200'>{buyer}</p>
         </td>
 
         {/* Product Name */}
-        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
-          <span className="md:hidden font-bold block text-xs text-gray-500">Product:</span>
-          <p className='text-gray-900 '>{name}</p>
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a1a1a] text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500 dark:text-gray-400">Product:</span>
+          <p className='text-gray-900 dark:text-gray-200'>{name}</p>
         </td>
 
         {/* Quantity */}
-        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
-          <span className="md:hidden font-bold block text-xs text-gray-500">Quantity:</span>
-          <p className='text-gray-900 '>{orderQuantity}</p>
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a1a1a] text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500 dark:text-gray-400">Quantity:</span>
+          <p className='text-gray-900 dark:text-gray-200'>{orderQuantity}</p>
         </td>
 
         {/* Status Pill */}
-        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 bg-white text-sm block md:table-cell'>
-          <span className="md:hidden font-bold block text-xs text-gray-500">Current Status:</span>
+        <td className='px-5 py-3 md:py-5 border-b md:border-b-0 border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a1a1a] text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500 dark:text-gray-400">Current Status:</span>
           <span
             className={`relative inline-block px-3 py-1 font-semibold leading-tight ${getStatusColor(currentStatus)} rounded-full`}
           >
@@ -117,30 +117,30 @@ const AllOrdersDataRow = ({ order, refetch }) => {
         </td>
 
         {/* Actions */}
-        <td className='px-5 py-3 md:py-5 border-b-0 bg-white text-sm block md:table-cell'>
-          <span className="md:hidden font-bold block text-xs text-gray-500 mb-1">Actions:</span>
+        <td className='px-5 py-3 md:py-5 border-b-0 bg-white dark:bg-[#1a1a1a] text-sm block md:table-cell'>
+          <span className="md:hidden font-bold block text-xs text-gray-500 dark:text-gray-400 mb-1">Actions:</span>
           <div className='flex items-center gap-2'>
             {/* Status Change Dropdown */}
             <select
               required
-              className={`p-1 border-2 border-gray-300 focus:outline-lime-500 rounded-md text-gray-900 bg-white ${isUpdating ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`p-1 border-2 border-gray-300 dark:border-gray-700 focus:outline-lime-500 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-[#262626] transition-colors ${isUpdating ? 'opacity-50 cursor-not-allowed' : ''}`}
               value={currentStatus}
               onChange={handleStatusChange}
               disabled={isUpdating}
             >
-              <option value='Pending'>Pending</option>
-              <option value='Approved'>Approved</option>
-              <option value='Rejected'>Rejected</option>
+              <option value='Pending' className='dark:bg-[#1a1a1a]'>Pending</option>
+              <option value='Approved' className='dark:bg-[#1a1a1a]'>Approved</option>
+              <option value='Rejected' className='dark:bg-[#1a1a1a]'>Rejected</option>
             </select>
 
             {/* View Button */}
             <button
               onClick={handleViewDetails}
-              className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
+              className='relative cursor-pointer inline-block px-3 py-1 font-semibold text-green-900 dark:text-green-400 leading-tight'
             >
               <span
                 aria-hidden='true'
-                className='absolute inset-0 bg-lime-200 opacity-50 rounded-full'
+                className='absolute inset-0 bg-lime-200 dark:bg-green-900/30 opacity-50 rounded-full'
               ></span>
               <span className='relative'>View</span>
             </button>

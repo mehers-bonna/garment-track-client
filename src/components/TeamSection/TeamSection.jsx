@@ -47,8 +47,8 @@ const TeamSection = () => {
   };
 
   return (
-    <div className="w-full py-12 bg-white">
-      <h2 className="text-center text-3xl md:text-4xl font-bold mb-8">
+    <div className="w-9/12 mx-auto py-12 bg-white dark:bg-[#0f0f0f] transition-colors duration-300 -mt-12">
+      <h2 className="text-center text-3xl md:text-4xl font-bold mb-12 text-[#442C2E] dark:text-[#FEEAE6]">
         Meet Our Dedicated Team
       </h2>
 
@@ -56,7 +56,7 @@ const TeamSection = () => {
         {/* Left Arrow */}
         <button
           onClick={prevSlide}
-          className="absolute left-0 bg-gray-200 p-3 rounded-full hover:bg-gray-300"
+          className="z-10 absolute left-[-20px] md:left-0 bg-gray-200 dark:bg-gray-800 p-3 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors"
         >
           &#10094;
         </button>
@@ -65,27 +65,33 @@ const TeamSection = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={teamMembers[current].id}
-            initial={{ opacity: 0, x: 100 }}
+            initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-            className="bg-lime-50 p-6 rounded-xl text-center shadow-lg w-80"
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.4 }}
+            className="bg-lime-50 dark:bg-[#1a1a1a] p-8 rounded-3xl text-center shadow-xl w-full max-w-md border dark:border-gray-800 transition-colors"
           >
             <img
               src={teamMembers[current].img}
               alt={teamMembers[current].name}
-              className="w-32 h-32 mx-auto rounded-full mb-4 object-cover"
+              className="w-32 h-32 mx-auto rounded-full mb-6 object-cover border-4 border-white dark:border-gray-700 shadow-md"
             />
-            <h3 className="text-xl font-semibold">{teamMembers[current].name}</h3>
-            <p className="text-gray-500 mb-2">{teamMembers[current].role}</p>
-            <p className="text-gray-700">{teamMembers[current].desc}</p>
+            <h3 className="text-2xl font-bold text-[#442C2E] dark:text-[#FEEAE6] mb-1">
+              {teamMembers[current].name}
+            </h3>
+            <p className="text-lime-600 dark:text-lime-400 font-medium mb-4">
+              {teamMembers[current].role}
+            </p>
+            <p className="text-gray-700 dark:text-gray-300 italic">
+              "{teamMembers[current].desc}"
+            </p>
           </motion.div>
         </AnimatePresence>
 
         {/* Right Arrow */}
         <button
           onClick={nextSlide}
-          className="absolute right-0 bg-gray-200 p-3 rounded-full hover:bg-gray-300"
+          className="z-10 absolute right-[-20px] md:right-0 bg-gray-200 dark:bg-gray-800 p-3 rounded-full hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors"
         >
           &#10095;
         </button>

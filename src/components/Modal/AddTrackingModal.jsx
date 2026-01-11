@@ -41,6 +41,7 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
             toast.error('Failed to update tracking.');
         }
     });
+
     const onSubmit = async (data) => {
         try {
             await addTracking(data);
@@ -52,7 +53,7 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
 
     return (
         <Transition appear show={isOpen} as={React.Fragment}>
-            <Dialog as='div' className='relative z-10' onClose={closeModal}>
+            <Dialog as='div' className='relative z-50' onClose={closeModal}>
                 <TransitionChild
                     as={React.Fragment}
                     enter='ease-out duration-300'
@@ -62,7 +63,7 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
                     leaveFrom='opacity-100'
                     leaveTo='opacity-0'
                 >
-                    <div className='fixed inset-0 bg-transparent' />
+                    <div className='fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm transition-opacity' />
                 </TransitionChild>
 
                 <div className='fixed inset-0 overflow-y-auto'>
@@ -76,11 +77,11 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
                             leaveFrom='opacity-100 scale-100'
                             leaveTo='opacity-0 scale-95'
                         >
-                            <DialogPanel className='w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                            <DialogPanel className='w-full max-w-xl transform overflow-hidden rounded-2xl bg-white dark:bg-[#1a1a1a] p-6 text-left align-middle shadow-xl transition-all border dark:border-gray-800'>
                                 
                                 <DialogTitle
                                     as='h3'
-                                    className='text-2xl font-bold leading-6 text-gray-900 border-b pb-3 mb-6'
+                                    className='text-2xl font-bold leading-6 text-gray-900 dark:text-gray-100 border-b dark:border-gray-800 pb-3 mb-6'
                                 >
                                     🚚 Add Tracking Update (Order ID: {order?._id.slice(-6)})
                                 </DialogTitle>
@@ -88,40 +89,40 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     {/* Status Selector */}
                                     <div className='mb-4'>
-                                        <label htmlFor='status' className='block text-sm font-medium text-gray-700'>Tracking Status *</label>
+                                        <label htmlFor='status' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>Tracking Status *</label>
                                         <select
                                             id='status'
                                             {...register('status', { required: 'Status is required' })}
-                                            className='mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border'
+                                            className='mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 dark:border-gray-700 bg-white dark:bg-[#262626] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border transition-colors'
                                         >
-                                            <option value="">Select Status</option>
+                                            <option value="" className='dark:bg-[#1a1a1a]'>Select Status</option>
                                             {trackingStatuses.map(status => (
-                                                <option key={status} value={status}>{status}</option>
+                                                <option key={status} value={status} className='dark:bg-[#1a1a1a]'>{status}</option>
                                             ))}
                                         </select>
-                                        {errors.status && <p className="text-red-500 text-xs mt-1">{errors.status.message}</p>}
+                                        {errors.status && <p className="text-red-500 dark:text-red-400 text-xs mt-1">{errors.status.message}</p>}
                                     </div>
 
                                     {/* Location Input */}
                                     <div className='mb-4'>
-                                        <label htmlFor='location' className='block text-sm font-medium text-gray-700'>Location (e.g., Factory Floor, Warehouse B) *</label>
+                                        <label htmlFor='location' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>Location (e.g., Factory Floor, Warehouse B) *</label>
                                         <input
                                             type='text'
                                             id='location'
                                             {...register('location', { required: 'Location is required' })}
-                                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                                            className='mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-[#262626] text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors'
                                         />
-                                        {errors.location && <p className="text-red-500 text-xs mt-1">{errors.location.message}</p>}
+                                        {errors.location && <p className="text-red-500 dark:text-red-400 text-xs mt-1">{errors.location.message}</p>}
                                     </div>
 
                                     {/* Note/Description */}
                                     <div className='mb-6'>
-                                        <label htmlFor='note' className='block text-sm font-medium text-gray-700'>Note (Optional)</label>
+                                        <label htmlFor='note' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>Note (Optional)</label>
                                         <textarea
                                             id='note'
                                             {...register('note')}
                                             rows='3'
-                                            className='mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
+                                            className='mt-1 block w-full border border-gray-300 dark:border-gray-700 rounded-md shadow-sm py-2 px-3 bg-white dark:bg-[#262626] text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors'
                                         ></textarea>
                                     </div>
 
@@ -129,7 +130,7 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
                                     <div className='mt-4 flex justify-end gap-3'>
                                         <button
                                             type='button'
-                                            className='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 transition'
+                                            className='inline-flex justify-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-transparent px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition'
                                             onClick={closeModal}
                                         >
                                             Cancel
@@ -137,7 +138,7 @@ const AddTrackingModal = ({ closeModal, isOpen, order, refetchOrders }) => {
                                         <button
                                             type='submit'
                                             disabled={isPending}
-                                            className='inline-flex justify-center rounded-md border border-transparent bg-[#442C2E] px-4 py-2 text-sm font-medium text-white hover:bg-[#D6A99D] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D6A99D] focus-visible:ring-offset-2 disabled:bg-blue-400 transition'
+                                            className='inline-flex justify-center rounded-md border border-transparent bg-[#442C2E] dark:bg-[#5c3e40] px-4 py-2 text-sm font-medium text-white hover:bg-[#D6A99D] dark:hover:bg-[#8d6a6d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D6A99D] focus-visible:ring-offset-2 disabled:bg-gray-400 dark:disabled:bg-gray-700 transition'
                                         >
                                             {isPending ? 'Saving...' : 'Add Update'}
                                         </button>

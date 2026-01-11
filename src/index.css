@@ -1,2 +1,21 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* DaisyUI theme configuration */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@layer base {
+  /* Default light mode style */
+  html, body {
+    @apply transition-colors duration-300 bg-white text-gray-900;
+  }
+
+  /* Global Dark Mode Support for all pages (including Dashboard) */
+  [data-theme='dark'] body {
+    @apply bg-[#0f0f0f] text-[#FEEAE6];
+  }
+}
+
+* {
+  font-family: "Poppins", sans-serif;
+}

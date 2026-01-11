@@ -26,11 +26,13 @@ const Sidebar = () => {
   const handleToggle = () => {
     setActive(!isActive)
   }
+  
   if(isRoleLoading) return <LoadingSpinner></LoadingSpinner>
+
   return (
     <>
-      {/* Small Screen Navbar, only visible till md breakpoint */}
-      <div className='bg-gray-100 text-gray-800 flex justify-between md:hidden'>
+      {/* Small Screen Navbar - Dark mode support added */}
+      <div className='bg-gray-100 dark:bg-[#1a1a1a] text-gray-800 dark:text-[#FEEAE6] flex justify-between md:hidden transition-colors duration-300'>
         <div>
           <div className='block cursor-pointer p-4 font-bold'>
             <Link to='/'>
@@ -41,53 +43,51 @@ const Sidebar = () => {
 
         <button
           onClick={handleToggle}
-          className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200'
+          className='mobile-menu-button p-4 focus:outline-none focus:bg-gray-200 dark:focus:bg-gray-800'
         >
-          <AiOutlineBars className='h-5 w-5' />
+          <AiOutlineBars className='h-5 w-5 dark:text-[#FEEAE6]' />
         </button>
       </div>
 
-      {/* Sidebar */}
+      {/* Sidebar - Dark mode colors and transition added */}
       <div
-        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
+        className={`z-10 md:fixed flex flex-col justify-between overflow-x-hidden bg-gray-100 dark:bg-[#1a1a1a] border-r dark:border-gray-800 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
           isActive && '-translate-x-full'
-        }  md:translate-x-0  transition duration-200 ease-in-out`}
+        }  md:translate-x-0 transition duration-300 ease-in-out`}
       >
         <div className='flex flex-col h-full'>
-          {/* Top Content */}
+          {/* Top Content: Logo Section */}
           <div>
-            {/* Logo */}
-            <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-[#FEEAE6] mx-auto'>
+            {/* Logo Wrapper - Dark mode adjustment */}
+            <div className='w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-[#FEEAE6] dark:bg-[#2a2a2a] mx-auto'>
               <Link to='/'>
-              <h1 className='flex justify-center items-center gap-1 font-bold'> <span><FaHome /></span>⏪ Go Home</h1>
-                <img src={logo} alt='logo' width='100' height='100' />
+                <h1 className='flex justify-center items-center gap-1 font-bold text-[#442C2E] dark:text-[#FEEAE6] mb-2'> 
+                  <span><FaHome /></span>⏪ Go Home
+                </h1>
+                <img src={logo} alt='logo' width='100' height='100' className='rounded-md' />
               </Link>
             </div>
           </div>
 
-          {/* Middle Content */}
+          {/* Middle Content: Navigation */}
           <div className='flex flex-col justify-between flex-1 mt-6'>
-            {/*  Menu Items */}
             <nav>
-              {/* Common Menu */}
+              {/* Statistics link logic color handles via MenuItem */}
               <MenuItem
                 icon={BsGraphUp}
                 label='Statistics'
                 address='/dashboard'
               />
+              
               {/* Role-Based Menu */}
               {role === 'buyer' && <BuyerMenu />}
               {role === 'manager' && <ManagerMenu />}
               {role === 'admin' && <AdminMenu />}
-              
-              
             </nav>
           </div>
 
-          {/* Bottom Content */}
-          <div>
-            <hr />
-
+          {/* Bottom Content: Profile & Logout */}
+          <div className='border-t dark:border-gray-700 pt-4'>
             <MenuItem
               icon={FcSettings}
               label='Profile'
@@ -95,10 +95,9 @@ const Sidebar = () => {
             />
             <button
               onClick={logOut}
-              className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform'
+              className='flex cursor-pointer w-full items-center px-4 py-2 mt-5 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-white transition-colors duration-300 transform'
             >
               <GrLogout className='w-5 h-5' />
-
               <span className='mx-4 font-medium'>Logout</span>
             </button>
           </div>

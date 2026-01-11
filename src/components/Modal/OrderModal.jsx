@@ -17,6 +17,7 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
     const [additionalNotes, setAdditionalNotes] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+
     useEffect(() => {
         if (price && minimumOrderQuantity) {
             const minQty = minimumOrderQuantity || 1;
@@ -24,6 +25,7 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
             setTotalPrice(price * minQty);
         }
     }, [price, minimumOrderQuantity]);
+
     const handleQuantityChange = (e) => {
         const quantity = parseInt(e.target.value);
         if (isNaN(quantity) || quantity < 1) {
@@ -47,6 +49,7 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
         setOrderQuantity(quantity);
         setTotalPrice(price * quantity);
     };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (orderQuantity < minimumOrderQuantity || orderQuantity > availableQuantity || !firstName || !lastName || !contactNumber || !deliveryAddress) {
@@ -56,7 +59,6 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
 
         closeModal();
         toast.loading('Processing order and redirecting to payment...');
-
 
         const paymentInfo = {
             productId: _id,
@@ -74,7 +76,6 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
                 deliveryAddress: deliveryAddress,
                 additionalNotes: additionalNotes,
             },
-            
             manager,
             buyer: {
                 name: user?.displayName,
@@ -82,6 +83,7 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
                 image: user?.photoURL
             }
         };
+
         try {
             const { data } = await axiosSecure.post(
                 `/create-checkout-session`,
@@ -95,7 +97,6 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
             
         } catch (err) {
             console.error(err);
-            // toast.dismiss();
             toast.error("Could not initiate payment. Please try again.");
         }
     };
@@ -104,42 +105,43 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
         <Dialog
             open={isOpen}
             as='div'
-            className='relative z-10 focus:outline-none'
+            className='relative z-[150] focus:outline-none'
             onClose={closeModal}
         >
-            <div className='fixed inset-0 bg-black/30' aria-hidden='true' /> 
+            {/* Background Overlay */}
+            <div className='fixed inset-0 bg-black/50 dark:bg-black/80' aria-hidden='true' /> 
             
             <div className='fixed inset-0 z-10 w-screen overflow-y-auto'>
                 <div className='flex min-h-full items-center justify-center p-4'>
                     <DialogPanel
                         transition
-                        className='w-full max-w-xl bg-white p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-2xl rounded-2xl'
+                        className='w-full max-w-xl bg-white dark:bg-[#1a1a1a] p-6 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0 shadow-2xl rounded-2xl border dark:border-gray-800'
                     >
                         <DialogTitle
                             as='h3'
-                            className='text-xl font-bold text-center leading-6 text-gray-900 border-b pb-3'
+                            className='text-xl font-bold text-center leading-6 text-gray-900 dark:text-gray-100 border-b dark:border-gray-800 pb-3'
                         >
                             Place Your Order for {name}
                         </DialogTitle>
                         
                         <form onSubmit={handleSubmit} className='mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8'>
-                            {/* Product Info*/}
-                            <div className='sm:col-span-2 space-y-2 mb-4 p-4 border rounded-lg bg-gray-50'>
-                                <p className='text-sm text-gray-700 font-semibold'>Product: {name}</p>
-                                <p className='text-sm text-gray-700'>Category: {category}</p>
-                                <p className='text-sm text-gray-700'>Unit Price: ${price}</p>
-                                <p className='text-sm text-gray-700'>Minimum Order: {minimumOrderQuantity} units</p>
-                                <p className='text-sm text-gray-700'>Available Stock: {availableQuantity} units</p>
+                            
+                            {/* Product Info Summary */}
+                            <div className='sm:col-span-2 space-y-2 mb-2 p-4 border dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-[#252525]'>
+                                <p className='text-sm text-gray-700 dark:text-gray-300 font-semibold'>Product: {name}</p>
+                                <p className='text-sm text-gray-700 dark:text-gray-300'>Category: {category}</p>
+                                <p className='text-sm text-gray-700 dark:text-gray-300'>Unit Price: ${price}</p>
+                                <p className='text-sm text-gray-700 dark:text-gray-300 font-medium text-orange-600 dark:text-orange-400'>Stock: {availableQuantity} (Min Order: {minimumOrderQuantity})</p>
                             </div>
                             
                             {/* Buyer Info */}
-                            <div className='sm:col-span-2 space-y-2 mb-4 p-4 border rounded-lg bg-indigo-50'>
-                                <p className='text-sm text-indigo-800 font-medium'>Buyer Email (Read-Only): {user?.email}</p>
+                            <div className='sm:col-span-2 space-y-2 p-3 border dark:border-indigo-900/30 rounded-lg bg-indigo-50 dark:bg-indigo-900/10'>
+                                <p className='text-xs text-indigo-800 dark:text-indigo-300 font-medium italic text-center'>Ordering as: {user?.email}</p>
                             </div>
 
                             {/* First Name */}
                             <div>
-                                <label htmlFor='firstName' className='block text-sm font-medium text-gray-700'>
+                                <label htmlFor='firstName' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
                                     First Name *
                                 </label>
                                 <div className='mt-1'>
@@ -150,14 +152,14 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
                                         value={firstName}
                                         onChange={(e) => setFirstName(e.target.value)}
                                         required
-                                        className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border'
+                                        className='block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white'
                                     />
                                 </div>
                             </div>
 
                             {/* Last Name */}
                             <div>
-                                <label htmlFor='lastName' className='block text-sm font-medium text-gray-700'>
+                                <label htmlFor='lastName' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
                                     Last Name *
                                 </label>
                                 <div className='mt-1'>
@@ -168,14 +170,14 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
                                         value={lastName}
                                         onChange={(e) => setLastName(e.target.value)}
                                         required
-                                        className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border'
+                                        className='block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white'
                                     />
                                 </div>
                             </div>
                             
                             {/* Order Quantity */}
                             <div>
-                                <label htmlFor='orderQuantity' className='block text-sm font-medium text-gray-700'>
+                                <label htmlFor='orderQuantity' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
                                     Order Quantity *
                                 </label>
                                 <div className='mt-1'>
@@ -188,16 +190,15 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
                                         min={minimumOrderQuantity || 1}
                                         max={availableQuantity}
                                         required
-                                        className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border'
+                                        className='block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white font-bold'
                                     />
-                                    <p className='text-xs text-red-500 mt-1'>Min: {minimumOrderQuantity}, Max: {availableQuantity}</p>
                                 </div>
                             </div>
                             
-                            {/* Total Order Price (Read Only) */}
+                            {/* Total Order Price */}
                             <div>
-                                <label htmlFor='totalPrice' className='block text-sm font-medium text-gray-700'>
-                                    Total Price (Read Only)
+                                <label htmlFor='totalPrice' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
+                                    Total Price
                                 </label>
                                 <div className='mt-1'>
                                     <input
@@ -205,14 +206,14 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
                                         id='totalPrice'
                                         value={`$${totalPrice.toFixed(2)}`}
                                         readOnly
-                                        className='block w-full rounded-md border-gray-300 shadow-sm bg-gray-100 sm:text-sm p-2 border font-bold text-lg'
+                                        className='block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm bg-gray-100 dark:bg-[#333] sm:text-sm p-2 border font-bold text-lg text-indigo-600 dark:text-indigo-400'
                                     />
                                 </div>
                             </div>
 
                             {/* Contact Number */}
-                            <div>
-                                <label htmlFor='contactNumber' className='block text-sm font-medium text-gray-700'>
+                            <div className='sm:col-span-2'>
+                                <label htmlFor='contactNumber' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
                                     Contact Number *
                                 </label>
                                 <div className='mt-1'>
@@ -223,32 +224,33 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
                                         value={contactNumber}
                                         onChange={(e) => setContactNumber(e.target.value)}
                                         required
-                                        className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border'
+                                        placeholder='Enter your phone number'
+                                        className='block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white'
                                     />
                                 </div>
                             </div>
                             
                             {/* Delivery Address */}
                             <div className='sm:col-span-2'>
-                                <label htmlFor='deliveryAddress' className='block text-sm font-medium text-gray-700'>
+                                <label htmlFor='deliveryAddress' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
                                     Delivery Address *
                                 </label>
                                 <div className='mt-1'>
                                     <textarea
                                         id='deliveryAddress'
                                         name='deliveryAddress'
-                                        rows='3'
+                                        rows='2'
                                         value={deliveryAddress}
                                         onChange={(e) => setDeliveryAddress(e.target.value)}
                                         required
-                                        className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border'
+                                        className='block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white'
                                     />
                                 </div>
                             </div>
                             
                             {/* Additional Notes */}
                             <div className='sm:col-span-2'>
-                                <label htmlFor='additionalNotes' className='block text-sm font-medium text-gray-700'>
+                                <label htmlFor='additionalNotes' className='block text-sm font-medium text-gray-700 dark:text-gray-300'>
                                     Additional Notes (Optional)
                                 </label>
                                 <div className='mt-1'>
@@ -258,25 +260,25 @@ const OrderModal = ({ closeModal, isOpen, product }) => {
                                         rows='2'
                                         value={additionalNotes}
                                         onChange={(e) => setAdditionalNotes(e.target.value)}
-                                        className='block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border'
+                                        className='block w-full rounded-md border-gray-300 dark:border-gray-700 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2 border bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white'
                                     />
                                 </div>
                             </div>
 
                             {/* Action Buttons */}
-                            <div className='sm:col-span-2 flex mt-6 justify-end space-x-4'>
-                                <button
-                                    type='submit'
-                                    className='inline-flex justify-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
-                                >
-                                    Proceed to Payment (${totalPrice.toFixed(2)})
-                                </button>
+                            <div className='sm:col-span-2 flex mt-2 justify-end gap-3'>
                                 <button
                                     type='button'
-                                    className='inline-flex justify-center rounded-md border border-transparent bg-red-100 px-4 py-2 text-sm font-medium text-red-900 hover:bg-red-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 self-center'
+                                    className='px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-md transition-colors border dark:border-gray-700'
                                     onClick={closeModal}
                                 >
                                     Cancel
+                                </button>
+                                <button
+                                    type='submit'
+                                    className='inline-flex justify-center rounded-md border border-transparent bg-indigo-600 dark:bg-indigo-500 px-6 py-2 text-sm font-bold text-white shadow-sm hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all'
+                                >
+                                    Proceed to Payment
                                 </button>
                             </div>
                         </form>

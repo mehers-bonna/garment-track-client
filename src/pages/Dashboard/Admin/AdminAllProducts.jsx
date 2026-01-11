@@ -33,26 +33,47 @@ const AdminAllProducts = () => {
     return <div className='text-center py-20'><LoadingSpinner /></div>;
   }
   if (products.length === 0) {
-    return <div className='text-center py-20 text-xl text-gray-600'>No products found in the database.</div>;
+    return (
+      <div className='text-center py-20 text-xl text-gray-600 dark:text-gray-400 transition-colors duration-300'>
+        No products found in the database.
+      </div>
+    );
   }
 
 
   return (
     <>
-      <div className='container mx-auto px-4 sm:px-8'>
+      <div className='container mx-auto px-4 sm:px-8 transition-colors duration-300 mb-12'>
         <div className='py-8'>
+          <h2 className='text-2xl font-semibold leading-tight mb-4 text-gray-800 dark:text-gray-100'>
+            Manage All Products
+          </h2>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
-            <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
+            <div className='inline-block min-w-full shadow rounded-lg overflow-hidden border dark:border-gray-800 transition-colors'>
               <table className='min-w-full leading-normal'>
                 <thead>
                   <tr className='hidden md:table-row'>
-                    <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Image</th>
-                    <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Name</th>
-                    <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Price</th>
-                    <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Category</th>
-                    <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Created By</th>
-                    <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Show on Home</th>
-                    <th scope='col' className='px-5 py-3 bg-white border-b border-gray-200 text-gray-800 text-left text-sm uppercase font-normal'>Action</th>
+                    <th scope='col' className='px-5 py-3 bg-gray-100 dark:bg-[#262626] border-b border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200 text-left text-sm uppercase font-semibold'>
+                      Image
+                    </th>
+                    <th scope='col' className='px-5 py-3 bg-gray-100 dark:bg-[#262626] border-b border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200 text-left text-sm uppercase font-semibold'>
+                      Name
+                    </th>
+                    <th scope='col' className='px-5 py-3 bg-gray-100 dark:bg-[#262626] border-b border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200 text-left text-sm uppercase font-semibold'>
+                      Price
+                    </th>
+                    <th scope='col' className='px-5 py-3 bg-gray-100 dark:bg-[#262626] border-b border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200 text-left text-sm uppercase font-semibold'>
+                      Category
+                    </th>
+                    <th scope='col' className='px-5 py-3 bg-gray-100 dark:bg-[#262626] border-b border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200 text-left text-sm uppercase font-semibold'>
+                      Created By
+                    </th>
+                    <th scope='col' className='px-5 py-3 bg-gray-100 dark:bg-[#262626] border-b border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200 text-left text-sm uppercase font-semibold'>
+                      Show on Home
+                    </th>
+                    <th scope='col' className='px-5 py-3 bg-gray-100 dark:bg-[#262626] border-b border-gray-200 dark:border-gray-800 text-gray-800 dark:text-gray-200 text-left text-sm uppercase font-semibold'>
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>

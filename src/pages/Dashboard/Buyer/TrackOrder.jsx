@@ -6,6 +6,7 @@ import { HiOutlineLocationMarker } from 'react-icons/hi';
 import { BiTimeFive } from 'react-icons/bi';
 import { FaCheckCircle, FaTruck } from 'react-icons/fa';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+
 const statusIcons = {
     'Order Placed': <FaCheckCircle className="text-blue-500 text-xl" />,
     'Cutting Completed': <FaCheckCircle className="text-indigo-500 text-xl" />,
@@ -18,12 +19,12 @@ const statusIcons = {
     'Delivered': <FaCheckCircle className="text-lime-500 text-xl" />,
 };
 
-
 const TrackOrder = () => {
     const { orderId } = useParams();
     const navigate = useNavigate(); 
     const [inputOrderId, setInputOrderId] = useState('');
     const axiosSecure = useAxiosSecure();
+
     const { 
         data: order = {}, 
         isLoading, 
@@ -35,13 +36,12 @@ const TrackOrder = () => {
             const { data } = await axiosSecure.get(
                 `/order/${orderId}` 
             );
-
             return data;
         },
         enabled: !!orderId,
     });
+
     if (!orderId) {
-        
         const handleTrackSubmit = (e) => {
             e.preventDefault();
             if (inputOrderId.trim()) {
@@ -50,11 +50,11 @@ const TrackOrder = () => {
         };
 
         return (
-            <div className='container mx-auto px-4 sm:px-8 py-8'>
-                <h1 className='text-3xl font-bold mb-6 text-gray-800'>🔍 Track Your Order</h1>
-                <div className='bg-white shadow-lg rounded-lg p-6 max-w-lg mx-auto'>
+            <div className='container mx-auto px-4 sm:px-8 py-8 transition-colors duration-300'>
+                <h1 className='text-3xl font-bold mb-6 text-gray-800 dark:text-[#FEEAE6]'>🔍 Track Your Order</h1>
+                <div className='bg-white dark:bg-[#1a1a1a] shadow-lg rounded-lg p-6 max-w-lg mx-auto border dark:border-gray-800'>
                     <form onSubmit={handleTrackSubmit}>
-                        <label htmlFor="order-id" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="order-id" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Enter Your Order ID
                         </label>
                         <input
@@ -64,7 +64,7 @@ const TrackOrder = () => {
                             onChange={(e) => setInputOrderId(e.target.value)}
                             placeholder="e.g., 6936db0a6cad258729009460"
                             required
-                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-lime-500 focus:border-lime-500"
+                            className="w-full p-3 border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-gray-100 rounded-lg focus:ring-lime-500 focus:border-lime-500 transition-colors"
                         />
                         <button 
                             type="submit"
@@ -73,7 +73,7 @@ const TrackOrder = () => {
                             Track Now
                         </button>
                     </form>
-                    <p className='mt-4 text-center text-sm text-gray-500'>
+                    <p className='mt-4 text-center text-sm text-gray-500 dark:text-gray-400'>
                         Use the Order ID provided in your "My Orders" section or confirmation email.
                     </p>
                 </div>
@@ -84,9 +84,10 @@ const TrackOrder = () => {
     if (isLoading) return <LoadingSpinner />;
     if (error) {
          const errorMessage = error.response?.data?.message || error.message;
-         return <div className='text-center text-red-500 mt-10'>Error loading order: {errorMessage}</div>;
+         return <div className='text-center text-red-500 dark:text-red-400 mt-10'>Error loading order: {errorMessage}</div>;
     }
-    if (!order || !order._id) return <div className='text-center text-gray-500 mt-10'>Order not found or invalid ID.</div>;
+    if (!order || !order._id) return <div className='text-center text-gray-500 dark:text-gray-400 mt-10'>Order not found or invalid ID.</div>;
+
     const trackingHistory = order.tracking || [{
         status: 'Order Placed',
         location: 'Initial Processing',
@@ -97,50 +98,51 @@ const TrackOrder = () => {
     const latestStatus = sortedTracking[0] || {};
     
     const isDelivered = latestStatus.status === 'Delivered';
-    const currentStatusClass = isDelivered ? 'text-lime-600' : 'text-orange-600';
-
+    const currentStatusClass = isDelivered ? 'text-lime-600 dark:text-lime-400' : 'text-orange-600 dark:text-orange-400';
 
     return (
-        <div className='container mx-auto px-4 sm:px-8 py-8'>
-            <h1 className='text-3xl font-bold mb-6 border-b pb-2 text-gray-800'>
+        <div className='container mx-auto px-4 sm:px-8 py-8 transition-colors duration-300 mb-20'>
+            <h1 className='text-3xl font-bold mb-6 border-b dark:border-gray-800 pb-2 text-gray-800 dark:text-[#FEEAE6]'>
                 🚚 Track Order: <span className={currentStatusClass}>{orderId.slice(0, 10)}...</span>
             </h1>
-            <div className='bg-white shadow-lg rounded-lg p-6 mb-8 border-t-4 border-lime-500'>
-                <h2 className='text-xl font-semibold mb-3'>Product Details</h2>
-                <div className="grid grid-cols-2 gap-4">
-                    <p><strong>Product Name:</strong> {order.name}</p>
-                    <p><strong>Order Status:</strong> <span className={`font-bold ${currentStatusClass}`}>{latestStatus.status}</span></p>
-                    <p><strong>Quantity:</strong> {order.orderQuantity}</p>
-                    <p><strong>Total Price:</strong> ${order.price}</p>
+
+            <div className='bg-white dark:bg-[#1a1a1a] shadow-lg rounded-lg p-6 mb-8 border-t-4 border-lime-500 border dark:border-x-gray-800 dark:border-b-gray-800'>
+                <h2 className='text-xl font-semibold mb-3 text-gray-800 dark:text-[#FEEAE6]'>Product Details</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700 dark:text-gray-300">
+                    <p><strong className="dark:text-[#FEEAE6]">Product Name:</strong> {order.name}</p>
+                    <p><strong className="dark:text-[#FEEAE6]">Order Status:</strong> <span className={`font-bold ${currentStatusClass}`}>{latestStatus.status}</span></p>
+                    <p><strong className="dark:text-[#FEEAE6]">Quantity:</strong> {order.orderQuantity}</p>
+                    <p><strong className="dark:text-[#FEEAE6]">Total Price:</strong> ${order.price}</p>
                 </div>
             </div>
-            <div className='bg-white shadow-lg rounded-lg p-6 mb-8'>
-                <h2 className='text-xl font-semibold mb-3'>Current Location</h2>
-                <div className='h-64 bg-gray-200 rounded-md flex items-center justify-center text-gray-500'>
-                    <p>
-                        [Interactive Map Placeholder showing current location: **{latestStatus.location || 'N/A'}**]
+
+            <div className='bg-white dark:bg-[#1a1a1a] shadow-lg rounded-lg p-6 mb-8 border dark:border-gray-800'>
+                <h2 className='text-xl font-semibold mb-3 text-gray-800 dark:text-[#FEEAE6]'>Current Location</h2>
+                <div className='h-64 bg-gray-100 dark:bg-[#0f0f0f] rounded-md flex items-center justify-center text-gray-500 dark:text-gray-400 border border-dashed dark:border-gray-700'>
+                    <p className="text-center px-4">
+                        [Interactive Map Placeholder showing current location: <strong className="text-gray-700 dark:text-gray-200">{latestStatus.location || 'N/A'}</strong>]
                     </p>
                 </div>
             </div>
 
             {/* Timeline View */}
-            <div className='bg-white shadow-lg rounded-lg p-6'>
-                <h2 className='text-xl font-semibold mb-5 border-b pb-2'>Tracking Timeline</h2>
+            <div className='bg-white dark:bg-[#1a1a1a] shadow-lg rounded-lg p-6 border dark:border-gray-800'>
+                <h2 className='text-xl font-semibold mb-5 border-b dark:border-gray-800 pb-2 text-gray-800 dark:text-[#FEEAE6]'>Tracking Timeline</h2>
                 
-                <div className="relative border-l-4 border-gray-200 ml-4 pl-4 space-y-8">
+                <div className="relative border-l-4 border-gray-200 dark:border-gray-800 ml-4 pl-4 space-y-8">
                     {sortedTracking.map((track, index) => {
                         const isLatest = index === 0;
                         const icon = statusIcons[track.status] || <FaCheckCircle className="text-gray-500 text-xl" />;
                         
                         return (
                             <div key={index} className="relative">
-                                <div className={`absolute -left-7 ${isLatest ? 'bg-lime-500' : 'bg-gray-400'} rounded-full p-1 shadow-md`}>
+                                <div className={`absolute -left-7 ${isLatest ? 'bg-lime-500' : 'bg-gray-400 dark:bg-gray-600'} rounded-full p-1 shadow-md`}>
                                     {icon}
                                 </div>
-                                <div className={`ml-6 p-4 rounded-lg shadow-sm ${isLatest ? 'bg-lime-50 border-l-4 border-lime-600' : 'bg-gray-50'}`}>
-                                    <h3 className={`text-lg font-bold ${isLatest ? 'text-lime-700' : 'text-gray-700'}`}>{track.status}</h3>
+                                <div className={`ml-6 p-4 rounded-lg shadow-sm transition-colors ${isLatest ? 'bg-lime-50 dark:bg-[#222a22] border-l-4 border-lime-600' : 'bg-gray-50 dark:bg-[#2a2a2a]'}`}>
+                                    <h3 className={`text-lg font-bold ${isLatest ? 'text-lime-700 dark:text-lime-400' : 'text-gray-700 dark:text-gray-200'}`}>{track.status}</h3>
                                     
-                                    <div className="text-sm text-gray-500 mt-1 space-y-1">
+                                    <div className="text-sm text-gray-500 dark:text-gray-400 mt-1 space-y-1">
                                         <div className='flex items-center space-x-2'>
                                             <BiTimeFive className='text-md' />
                                             <span>{new Date(track.timestamp).toLocaleString()}</span>
@@ -150,17 +152,16 @@ const TrackOrder = () => {
                                             <span>{track.location || 'Warehouse/Factory'}</span>
                                         </div>
                                         {track.notes && (
-                                            <p className='italic text-gray-600 border-t pt-1 mt-1'>Note: {track.notes}</p>
+                                            <p className='italic text-gray-600 dark:text-gray-400 border-t dark:border-gray-700 pt-1 mt-1'>Note: {track.notes}</p>
                                         )}
                                     </div>
-                                    
                                 </div>
                             </div>
                         );
                     })}
                 </div>
                 {sortedTracking.length === 0 && (
-                    <p className='text-center text-gray-500 mt-5'>No tracking updates available yet.</p>
+                    <p className='text-center text-gray-500 dark:text-gray-400 mt-5'>No tracking updates available yet.</p>
                 )}
             </div>
         </div>
